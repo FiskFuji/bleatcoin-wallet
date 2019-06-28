@@ -1,0 +1,123 @@
+<div id="content" fxLayout="column" fxLayoutGap="16px" *ngIf="passedAuth">
+  <div id="top-panel">
+    <mat-card class="top-panel-container" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="8px">
+        <div fxFlex class="top-panel-content">
+          <img id="lamb-icon-one" src="../../assets/ll_pride.png">
+        </div>
+        <div class="top-panel-content-lg">
+          <span id="top-panel-text" class="colored-text-anim">Welcome to your management portal, Lamb!</span>
+        </div>
+        <div class="top-panel-content top-panel-buttons-div" fxLayout="column" fxLayoutAlign="center end" fxLayoutGap="8px">
+            <button class="top-panel-button hvr-bounce-to-left" mat-raised-button (click)="logout()" color="accent">
+              Logout <mat-icon>undo</mat-icon>
+            </button>
+            <a routerLink="/Logs">
+              <button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">Logs <mat-icon>view_headline</mat-icon></button>
+            </a>
+            <a routerLink="/Wallet"><button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">To Public View</button></a>
+        </div>
+    </mat-card>
+  </div>
+  <div id="management-controls">
+    <mat-card>
+      <div class="Rtable Rtable--4cols Rtable--collapse Rtable-special">
+        <div class="Rtable-cell Rtable-cell--head" fxLayoutAlign="center center">
+          <button mat-raised-button class="management-button" color="primary" (click)="openAddPatronDialog()" 
+            matTooltip="Add a new patron" matTooltipPosition="left">
+            <mat-icon class="icon-left-side">add_circle_outline</mat-icon>Add New Patron
+          </button>
+        </div>
+        <div class="Rtable-cell" fxLayoutAlign="center center">
+          <button mat-raised-button class="management-button" color="primary" (click)="openBatchCoinAddDialog()" 
+            matTooltip="Add coins to a tier of patrons" matTooltipPosition="left">
+            <mat-icon class="icon-left-side">supervised_user_circle</mat-icon>Batch Add Coins
+          </button>
+        </div>
+        <div class="Rtable-cell" fxLayoutAlign="center center">
+          <form novalidate>
+            <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
+              <mat-label>Filter</mat-label>
+              <mat-select [(value)]="selectedSearch">
+                <mat-option [value]='' selected>None</mat-option>
+                <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="Rtable-cell Rtable-cell--foot" fxLayoutAlign="center center">
+          <form novalidate>
+            <mat-form-field *ngIf="!selectedSearchIsTier">
+              <mat-label>Search Term</mat-label>
+              <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <mat-form-field *ngIf="selectedSearchIsTier">
+              <mat-label>Tier</mat-label>
+              <mat-select [(value)]="selectedFilterTier" (selectionChange)="filterByCritereon()">
+                <mat-option [value]="" selected>None</mat-option>
+                <mat-option *ngFor="let t of availableTiers" [value]="t">{{t}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+  <div id="patron-list-header" *ngIf="!requestInProgress">
+    <mat-card>
+      <div class="Rtable Rtable--7cols Rtable--collapse">
+        <div class="Rtable-cell Rtable-cell--head"><span class="manage-header">Username</span></div>
+        <div class="Rtable-cell"><span class="manage-header">Patreon Name</span></div>
+        <div class="Rtable-cell"><span class="manage-header">Patron Tier</span></div>
+        <div class="Rtable-cell"><span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png"></div>
+        <div class="Rtable-cell"><span class="manage-header">Update Coins</span></div>
+        <div class="Rtable-cell"><span class="manage-header">Edit Coins</span></div>
+        <div class="Rtable-cell Rtable-cell--foot"><span class="manage-header">Edit Details</span></div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex id="patron-list" *ngIf="!requestInProgress" [@listAnimation]="patronList.length">
+    <mat-card *ngIf="patronList.length === 0 && noFilterSelected()">
+      <div fxFlex fxLayoutAlign="center center">No patrons! Add some using the controls above.</div>
+    </mat-card>
+    <mat-card class="patron-display-card" *ngFor="let p of patronList; let i = index">
+      <mat-card-content>
+        <div class="Rtable Rtable--7cols Rtable--collapse">
+          <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head"><span class="username-display user-info">{{p.username}}</span></div>
+          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="realname-display user-info">{{p.realname}}</span></div>
+          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="tier-display user-info">{{p.tier}}</span></div>
+          <div fxLayoutAlign="center center" class="Rtable-cell">
+            <span class="coins-display user-info">{{p.coins}}</span>
+            <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+          </div>
+          <div fxLayoutAlign="center center" class="Rtable-cell button-display">
+            <button mat-raised-button color="accent" (click)="updateCoins(i)" [disabled]="controls[i].value === 0">Update!</button>
+          </div>
+          <div fxLayoutAlign="center center" class="Rtable-cell">
+            <div class="form-display" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+              <button mat-mini-fab color="primary" (click)="decrementCoinCounter(i)">—</button>
+              <form novalidate>
+                <mat-form-field class="add-subtract-coins-input user-info">           
+                  <input class="coins-input-display" matInput type="number" [formControl]="controls[i]">
+                  <mat-hint>Coins</mat-hint>
+                </mat-form-field>
+              </form>
+              <button mat-mini-fab color="primary" (click)="incrementCoinCounter(i)">+</button>
+            </div>
+          </div>
+          <div fxLayoutAlign="space-evenly center" class="Rtable-cell Rtable-cell--foot edit-display">
+            <button mat-mini-fab class="edit-button" color="accent" (click)="openEditPatronDialog(p)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-mini-fab class="delete-button" color="warn" (click)="openDeletePatronDialog(p)">
+                <mat-icon>cancel</mat-icon>
+              </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

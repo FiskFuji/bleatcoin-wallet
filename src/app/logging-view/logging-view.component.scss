@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
+@import '~@angular/material/theming';
+
+$primary: mat-palette($mat-deep-purple);
+$accent:  mat-palette($mat-amber, A200, A100, A400);
+
+:host {
+    position: absolute;
+    height: inherit;
+    width: inherit;
+}
+
+#all-content {
+  background-image: linear-gradient(-90deg, rgba(26, 26, 165, 0.9), rgba(160, 17, 160, 0.9));
+  height: 100% !important;
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow: hidden;
+}
+
+mat-card {
+  margin: 4px;
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+#top-panel {
+  width: 100%;
+}
+
+#log-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 12px;
+}
+
+#log-header {
+  margin-bottom: 0px !important;
+}
+
+#log-content::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#log-content::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#log-content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
+}
+
+.bleatcoin {
+  height: 32px;
+  width: 32px;
+  margin-left: 8px;
+}
+
+.top-panel-content {
+  width: 25%;
+}
+
+.top-panel-content-lg {
+  width: 50%
+}
+
+.top-panel-button {
+  font-size: 18px;
+  min-width: 140px;
+}
+
+#top-panel-text {
+  font-family: PermanentMarker-Regular, Permanent Marker;
+  font-size: 32px;
+  text-align: center;
+}
+
+.add-subtract-coins-input {
+  text-align: right;
+  max-width: 65px;
+}
+
+.capitalize-first {
+  text-transform: capitalize;
+}
+
+.coins-input-display {
+  font-size: 24px;
+}
+
+.button-display > button, .management-button {
+  font-size: 16px;
+}
+
+.icon-left-side {
+  margin-right: 8px;
+}
+
+.coins-display {
+  font-size: 20px;
+}
+
+.lora-font, .logs-header-text, .log-info {
+  font-family: 'Lora', 'serif';
+  font-kerning: auto;
+}
+
+.logs-header-text, .log-info {
+  font-size: 16px;
+}
+
+.small-circle-button {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+
+  i {
+    padding-bottom: 8px;
+  }
+}
+
+// Reactive Tables
+.Rtable {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 3em 0;
+  padding: 0;
+}
+
+.Rtable-cell, .Rtable-cell-long {
+  box-sizing: border-box;
+  flex-grow: 1;
+  width: 100%;
+  padding: 0.8em 1.2em;
+  overflow: hidden;
+  list-style: none;
+  border: solid 3px rgba(255, 255, 255, 0.5);
+  background: rgba(112, 128, 144, 0.1);
+}
+
+.Rtable-cell > h1,
+.Rtable-cell > h2,
+.Rtable-cell > h3,
+.Rtable-cell > h4,
+.Rtable-cell > h5,
+.Rtable-cell > h6 {
+  margin: 0;
+}
+
+.Rtable--3cols > .Rtable-cell {
+  width: 25%;
+}
+
+.Rtable--3cols > .Rtable-cell-long {
+    width: 50%;
+}
+
+.Rtable {
+  position: relative;
+  top: 3px;
+  left: 3px;
+}
+
+.Rtable-cell, .Rtable-cell-long {
+  margin: -3px 0 0 -3px;
+}
+
+.no-flexbox .Rtable {
+  display: block;
+}
+
+.no-flexbox .Rtable > .Rtable-cell {
+  width: 100%;
+}
+
+.no-flexbox .Rtable > .Rtable-cell--foot {
+  margin-bottom: 1em;
+}
+
+// Media Queries
+@media all and (max-width: 850px) {
+  .Rtable--collapse {
+    display: flex !important;
+  }
+
+  .Rtable--collapse > .Rtable-cell {
+    width: 50% !important;
+  }
+
+  .Rtable--collapse > .Rtable-cell--foot {
+    margin-bottom: 1em;
+  }
+}
+
+@media all and (max-width: 700px) {
+  #logs-controls {
+    flex-direction: column !important;
+  }
+  
+  #log-header {
+    display: none !important;
+  }
+
+  .top-panel-button {
+    margin-bottom: 8px;
+  }
+}
+
+@media all and (max-width: 525px) {
+  .Rtable--collapse {
+    display: block !important;
+  }
+
+  .Rtable--collapse > .Rtable-cell,
+  .Rtable--collapse > .Rtable-cell-long {
+    width: 100% !important;
+  }
+
+  .Rtable--collapse > .Rtable-cell--foot {
+    margin-bottom: 1em;
+  }
+
+  .Rtable-special {
+    display: block !important;
+  }
+
+  .Rtable-special > .Rtable-cell {
+    width: 100% !important;
+  }
+
+  .Rtable-special {
+    .Rtable-cell {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+      padding: 4px !important;
+    }
+  }
+
+  .Rtable-cell {
+    padding: 4px 1.2em !important;
+  }
+
+  mat-card {
+    padding: 4px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .patron-display-card {
+    margin-bottom: 8px !important;
+  }
+
+  #top-panel {
+    margin-top: 4px !important;
+  }
+
+  .top-panel-buttons-div {
+    flex-direction: row !important;
+
+    button {
+      min-width: 30% !important;
+      font-size: 12px !important;
+      padding: 4px;
+      margin: 0 4px !important;
+
+      mat-icon {
+        display: none !important;
+      }
+    }
+  }
+}
+
+// Animations
+.hvr-bounce-to-left {
+	display: inline-block;
+	vertical-align: middle;
+	-webkit-transform: perspective(1px) translateZ(0);
+	transform: perspective(1px) translateZ(0);
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	position: relative;
+	-webkit-transition-property: color;
+	transition-property: color;
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+}
+
+.hvr-bounce-to-left:before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #2098D1;
+	-webkit-transform: scaleX(0);
+	transform: scaleX(0);
+	-webkit-transform-origin: 100% 50%;
+	transform-origin: 100% 50%;
+	-webkit-transition-property: transform;
+	transition-property: transform;
+	-webkit-transition-duration: 0.5s;
+	transition-duration: 0.5s;
+	-webkit-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+}
+
+.hvr-bounce-to-left:hover, .hvr-bounce-to-left:focus, .hvr-bounce-to-left:active {
+	color: white;
+}
+
+.hvr-bounce-to-left:hover:before, .hvr-bounce-to-left:focus:before, .hvr-bounce-to-left:active:before {
+	-webkit-transform: scaleX(1);
+	transform: scaleX(1);
+	-webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+	transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+}

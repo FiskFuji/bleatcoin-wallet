@@ -1,0 +1,22 @@
+<div id="content" fxLayout="column" fxLayoutAlign="space-around center">
+  <div id="welcome-text" fxLayout="column" fxLayoutAlign="center center">
+    <h1>Welcome to the</h1>
+    <svg viewBox="0 0 750 116" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g stroke="none" fill="none" fill-rule="evenodd" fill-opacity="1">
+        <text id="the-lamb-jam" stroke="#b23fff" fill="black" font-size="144">
+          <tspan x="3" y="109">
+            <tspan>L</tspan>
+            <tspan>a</tspan>
+            <tspan>m</tspan>
+            <tspan>b</tspan>
+            <tspan>J</tspan>
+            <tspan>a</tspan>
+            <tspan>m</tspan>
+          </tspan>
+        </text>
+      </g>
+    </svg>
+
+    <a routerLink="/Wallet" *ngIf="!isAuthed"><button mat-raised-button color="primary" class="hvr-bounce-to-right" id="view-coins-button">View Bleatcoins ></button></a>
+    <a routerLink="/Admin" *ngIf="!isAuthed"><button mat-raised-button color="primary" class="hvr-bounce-to-right">Administration ></button></a>
+</div>

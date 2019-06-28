@@ -1,0 +1,52 @@
+<div id="all-content" fxLayout="column">
+  <div id="header-content">
+    <mat-card>
+      <mat-card-header>
+        <h2 class="lora-font">View Your Logs</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div id="logs-controls" fxLayout="row" fxLayoutAlign="space-evenly center">
+          <form novalidate>
+            <mat-form-field>
+              <mat-label>Filter By</mat-label>
+              <mat-select [(value)]="selectedFilter" (selectionChange)="filterByCriterion()">
+                <mat-option [value]="">None</mat-option>
+                <mat-option *ngFor="let o of filterOptions" [value]="o">{{o}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+          <a routerLink="/Manage"><button mat-raised-button class="top-panel-button lora-font hvr-bounce-to-left" color="primary">< Admin View</button></a>
+          <button mat-raised-button class="top-panel-button lora-font hvr-bounce-to-left" color="accent" (click)="openAddLogDialog()">Add Log</button>
+          <button mat-raised-button class="top-panel-button lora-font" color="warn" (click)="openDeleteAllLogsDialog()">Delete All Logs</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div id="logs-container" fxLayout="column">
+    <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
+      <mat-spinner color="accent"></mat-spinner>
+    </div>
+    <div id="log-header" *ngIf="!requestInProgress">
+      <mat-card>
+        <div class="Rtable Rtable--3cols Rtable--collapse">
+          <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head"><span class="logs-header-text">Date</span></div>
+          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="logs-header-text">Action</span></div>
+          <div fxLayoutAlign="center center" class="Rtable-cell-long"><span class="logs-header-text">Information</span></div>
+        </div>
+      </mat-card>
+    </div>
+    <div id="log-content" *ngIf="!requestInProgress" [@listAnimation]="logs.length">
+      <mat-card class="log-display-card" *ngFor="let l of logs; let i = index">
+        <mat-card-content>
+          <div class="Rtable Rtable--3cols Rtable--collapse">
+            <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head"><span class="date-display log-info">
+              <button mat-mini-fab class="small-circle-button" color="warn" (click)="deleteLog(i)"><i class="far fa-times-circle fa-lg"></i></button> {{l.date}}</span>
+            </div>
+            <div fxLayoutAlign="center center" class="Rtable-cell"><span class="action-display log-info">{{l.action}}</span></div>
+            <div fxLayoutAlign="center center" class="Rtable-cell-long"><span class="info-display log-info">{{l.info}}</span></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

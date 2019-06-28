@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import url('https://fonts.googleapis.com/css?family=Lora&display=swap');
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$bg-light: #D1C4E9;
+
+.mat-app-background {
+  background-image: linear-gradient(-90deg, rgba(26, 26, 165, 0.9), rgba(160, 17, 160, 0.9));
+}
+
+.mat-tab-body-content {
+  height: unset !important;
+  overflow-y: hidden !important;
+}
+
+.mat-tab-label-content {
+  font-family: 'Lora', 'serif' !important;
+}
+
+@media all and (max-width: 850px) {
+  .mat-tab-label {
+    min-width: 120px !important;
+  }
+}

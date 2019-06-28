@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Add a Log Manually</h2>
+<mat-dialog-content>
+  <form novalidate fxLayout="column" fxLayoutGap="12px">
+    <mat-form-field>
+      <mat-label>Action Type</mat-label>
+      <mat-select [(value)]="selectedAction">
+        <mat-option *ngFor="let o of logTypes" [value]="o">{{o}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Information</mat-label>
+      <textarea matInput type="text" class="big-input" [formControl]="infoControl"></textarea>
+      
+      <mat-error *ngIf="infoControl.invalid && (infoControl.dirty || infoControl.touched)">
+        Information is required, cannot be > 150 characters.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div fxFlex fxLayoutAlign="space-between">
+    <button mat-raised-button (click)="close()" color="warn">Cancel</button>
+    <button mat-raised-button (click)="closeWithLog()" color="accent" [disabled]="infoControl.invalid">Add Log</button>
+  </div>
+</mat-dialog-actions>

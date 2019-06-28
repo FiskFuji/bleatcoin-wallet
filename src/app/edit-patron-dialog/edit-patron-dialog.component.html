@@ -1,0 +1,54 @@
+<h2 mat-dialog-title *ngIf="!data.addingNewPatron">Edit Patron Details</h2>
+<h2 mat-dialog-title *ngIf="data.addingNewPatron">Add A New Patron</h2>
+<mat-dialog-content>
+  <form fxLayout="column" fxLayoutGap="16px" novalidate>
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput type="text" [formControl]="usernameControl">
+
+      <mat-error *ngIf="usernameControl.invalid && (usernameControl.dirty || usernameControl.touched)">
+        Username required.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Patreon Name</mat-label>
+      <input matInput type="text" [formControl]="patreonnameControl">
+
+      <mat-error *ngIf="patreonnameControl.invalid && (patreonnameControl.dirty || patreonnameControl.touched)">
+        Patreon name required.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Patron Tier</mat-label>
+      <mat-select [(value)]="patronTier">
+        <mat-option *ngFor="let t of availableTiers" [value]="t">{{t}}</mat-option>
+        <mat-option [value]="'Other'">Other</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Coins</mat-label>
+      <input matInput type="number" [formControl]="coinsControl">
+
+      <mat-error *ngIf="coinsControl.invalid && (coinsControl.dirty || coinsControl.touched)">
+        Coins must be >= 0.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div fxFlex fxLayoutAlign="space-between" fxLayoutGap="8px">
+    <button mat-raised-button [mat-dialog-close]="{action: 'close'}" color="warn">Cancel</button>
+    <button mat-raised-button 
+            *ngIf="data.addingNewPatron" 
+            color="primary" (click)="addPatron()" 
+            [disabled]="usernameControl.invalid || patreonnameControl.invalid || coinsControl.invalid || isPatronTierEmpty()">
+      Add Patron
+    </button>
+    <button mat-raised-button 
+            *ngIf=!data.addingNewPatron 
+            color="primary" (click)="updatePatron()" 
+            [disabled]="usernameControl.invalid || patreonnameControl.invalid || coinsControl.invalid || isPatronTierEmpty()">
+      Update Patron
+    </button>
+  </div>
+</mat-dialog-actions>

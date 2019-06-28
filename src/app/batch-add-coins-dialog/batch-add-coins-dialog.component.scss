@@ -1,0 +1,18 @@
+mat-dialog-content {
+    margin-bottom: 16px !important;
+}
+
+.bleatcoin-small {
+    height: 24px;
+    width: 24px;
+}
+
+#coin-input-field {
+    background: url('../../assets/bleatcoin-max.png') no-repeat scroll left;
+    background-size: 24px 24px;
+    padding-left: 32px;
+
+    input {
+        font-size: 18px;
+    }
+}

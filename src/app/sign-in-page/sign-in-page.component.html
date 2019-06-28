@@ -1,0 +1,30 @@
+<div id="content" fxLayout="column" fxLayoutAlign="center center" *ngIf="hasNotBeenAuthed">
+  <span class="sign-in-title colored-text-anim">Lamb's Secret Login</span>
+
+  <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0px" id="signin-form" novalidate>
+    <mat-form-field appearance="outline" class="signin-field" color="accent">
+      <mat-label>Username</mat-label>
+      <input [formControl]="usernameControl" matInput type="text">
+      <mat-icon matSuffix>create</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="signin-field" color="accent">
+      <mat-label>Password</mat-label>
+      <input [formControl]="passwordControl" matInput type="password">
+      <mat-icon matSuffix>lock</mat-icon>
+    </mat-form-field>
+
+  </form>
+
+  <button mat-raised-button color="accent" class="signin-button" [ngClass]="{'hvr-bounce-to-right': usernameControl.value.length !== 0}" 
+    (click)="login()" [disabled]="usernameControl.value.length === 0">
+    Login >
+  </button>
+  <a routerLink="/Welcome"><button mat-raised-button color="accent" class="home-button hvr-bounce-to-left">< Home</button></a>
+
+  <div *ngIf="requestInProgress">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+</div>
+
+

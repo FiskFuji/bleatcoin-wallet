@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Delete All Logs?</h2>
+<mat-dialog-content>
+  <h4 class="lora-font">This will delete all logs. This action cannot be undone. Continue?</h4>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div fxFlex fxLayoutAlign="space-between center">
+    <button mat-raised-button color="primary" [mat-dialog-close]="false">Cancel</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="true">Delete All Logs</button>
+  </div>
+</mat-dialog-actions>
