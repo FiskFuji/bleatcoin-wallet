@@ -17,6 +17,7 @@
       </g>
     </svg>
 
-    <a routerLink="/Wallet" *ngIf="!isAuthed"><button mat-raised-button color="primary" class="hvr-bounce-to-right" id="view-coins-button">View Bleatcoins ></button></a>
+    <a routerLink="/Wallet"><button mat-raised-button color="primary" class="hvr-bounce-to-right" id="view-coins-button">View Bleatcoins ></button></a>
     <a routerLink="/Admin" *ngIf="!isAuthed"><button mat-raised-button color="primary" class="hvr-bounce-to-right">Administration ></button></a>
+    <a routerLink="/Manage" *ngIf="isAuthed"><button mat-raised-button color="primary" class="hvr-bounce-to-right">Administration ></button></a>
 </div>
