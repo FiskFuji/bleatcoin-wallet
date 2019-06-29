@@ -28,7 +28,8 @@ mat-card {
 }
 
 #log-content {
-  overflow-y: auto;
+  height: auto;
+  overflow-y: auto !important;
   overflow-x: hidden;
   margin-bottom: 12px;
 }

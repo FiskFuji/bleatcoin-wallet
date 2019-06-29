@@ -46,12 +46,14 @@ export class ManagementPageComponent implements OnInit {
   copyOfPatronList: Patron[] = [];
   controls: FormControl[] = [];
   availableTiers: string[] = PatronTiers;
-  selectedSearch: string;
+  selectedSearch = '';
   selectedFilterTier: string;
+  sortSelected = '';
   filterOptions: string[] = ['username', 'realname', 'tier'];
   filterOptionsDisplay: string[] = ['Username', 'Patreon Name', 'Patron Tier'];
   filterTextControl: FormControl;
-
+  controlsHidden = false;
+  headerContentHidden = false;
   requestInProgress = true;
   passedAuth = false;
 
@@ -108,6 +110,16 @@ export class ManagementPageComponent implements OnInit {
     return (this.selectedSearch === '' || this.selectedSearch === undefined);
   }
 
+  isSelectedSearchEmptyOrUndef() {
+    if (this.selectedSearch === undefined) {
+      return true;
+    }
+    if (this.selectedSearch === '') {
+      return true;
+    }
+    return false;
+  }
+
   isSelectedSearchEmpty(): boolean {
     if (this.selectedSearch === '' || this.selectedSearch === undefined) {
       this.filterTextControl.setValue(undefined);
@@ -115,6 +127,109 @@ export class ManagementPageComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  tierToNum(t: string): number {
+    switch (t) {
+      case 'Past Patron':
+        return 1;
+      case 'Hatchling':
+        return 2;
+      case 'Grub':
+        return 3;
+      case 'Moth':
+        return 4;
+      case 'Beetle':
+        return 5;
+      case 'Cicada':
+        return 6;
+      case 'Bumblebee':
+        return 7;
+      case 'Mantid':
+        return 8;
+    }
+  }
+
+  isControlsHidden(): boolean {
+    return this.controlsHidden;
+  }
+
+  setControlsHidden(b: boolean) {
+    this.controlsHidden = b;
+  }
+
+  isHeaderContentHidden(): boolean {
+    return this.headerContentHidden;
+  }
+
+  setHeaderContentHidden(b: boolean) {
+    this.headerContentHidden = b;
+  }
+
+  getSortSelected(): string {
+    return this.sortSelected;
+  }
+
+  isSortSelectedEmptyOrUndef(): boolean {
+    if (this.sortSelected === undefined) {
+      return true;
+    }
+    if (this.sortSelected === '') {
+      return true;
+    }
+    return false;
+  }
+
+  setSortSelected(q: string) {
+    this.sortSelected = q;
+
+    switch (this.sortSelected) {
+      case 'uu': {
+        this.patronList.sort((a, b) => a.username.toLowerCase() < b.username.toLowerCase() ? -1
+          : a.username.toLowerCase() > b.username.toLowerCase() ? 1 : 0);
+        break;
+      }
+      case 'ud': {
+        this.patronList.sort((a, b) => a.username.toLowerCase() > b.username.toLowerCase() ? -1
+          : a.username.toLowerCase() < b.username.toLowerCase() ? 1 : 0);
+        break;
+      }
+      case 'pu': {
+        this.patronList.sort((a, b) => a.realname.toLowerCase() < b.realname.toLowerCase() ? -1
+          : a.realname.toLowerCase() > b.realname.toLowerCase() ? 1 : 0);
+        break;
+      }
+      case 'pd': {
+        this.patronList.sort((a, b) => a.realname.toLowerCase() > b.realname.toLowerCase() ? -1
+          : a.realname.toLowerCase() < b.realname.toLowerCase() ? 1 : 0);
+        break;
+      }
+      case 'tu': {
+        this.patronList.sort((a, b) => this.tierToNum(a.tier) < this.tierToNum(b.tier) ? -1
+          : this.tierToNum(a.tier) > this.tierToNum(b.tier) ? 1 : 0);
+        break;
+      }
+      case 'td': {
+        this.patronList.sort((a, b) => this.tierToNum(a.tier) > this.tierToNum(b.tier) ? -1
+          : this.tierToNum(a.tier) < this.tierToNum(b.tier) ? 1 : 0);
+        break;
+      }
+      case 'cu': {
+        this.patronList.sort((a, b) => a.coins < b.coins ? -1 : a.coins > b.coins ? 1 : 0);
+        break;
+      }
+      case 'cd': {
+        this.patronList.sort((a, b) => a.coins > b.coins ? -1 : a.coins < b.coins ? 1 : 0);
+        break;
+      }
+    }
+  }
+
+  resetSort() {
+    this.requestInProgress = true;
+    this.sortSelected = '';
+    this.patronList.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+    this.requestInProgress = false;
   }
 
   incrementCoinCounter(index: number) {

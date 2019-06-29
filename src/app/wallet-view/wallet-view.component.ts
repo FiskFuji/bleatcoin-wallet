@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 
 import { Patron, PatronTiers } from '../patron';
@@ -35,25 +36,12 @@ export class WalletViewComponent implements OnInit {
   copyOfPatronList: Patron[] = [];
   availableTiers: string[] = PatronTiers;
   selectedSearch: string;
+  sortSelected = '';
   selectedFilterTier: string;
-  filterOptions: string[] = ['username', 'realname', 'tier'];
-  filterOptionsDisplay: string[] = ['Username', 'Patreon Name', 'Patron Tier'];
+  filterOptions: string[] = ['username', 'tier'];
+  filterOptionsDisplay: string[] = ['Username', 'Patron Tier'];
   filterTextControl: FormControl;
-
-  TEST_LIST: Patron[] = [
-    {id: 1, username: 'Tycho', realname: 'Fisk', tier: 'Hatchling', coins: 10},
-    {id: 2, username: 'Tycho', realname: 'Fisk', tier: 'Grub', coins: 10},
-    {id: 3, username: 'Tycho', realname: 'Fisk', tier: 'Moth', coins: 10},
-    {id: 4, username: 'Tycho', realname: 'Fisk', tier: 'Beetle', coins: 10},
-    {id: 5, username: 'Tycho', realname: 'Fisk', tier: 'Cicada', coins: 10},
-    {id: 6, username: 'Tycho', realname: 'Fisk', tier: 'Bumblebee', coins: 10},
-    {id: 7, username: 'Tycho', realname: 'Fisk', tier: 'Mantid', coins: 10},
-    {id: 8, username: 'Tycho', realname: 'Fisk', tier: 'Mantid', coins: 10},
-    {id: 9, username: 'Tycho', realname: 'Fisk', tier: 'Mantid', coins: 10},
-    {id: 10, username: 'Tycho', realname: 'Fisk', tier: 'Mantid', coins: 10},
-    {id: 11, username: 'Tycho', realname: 'Fisk', tier: 'Mantid', coins: 10},
-    {id: 12, username: 'Tycho', realname: 'Fisk', tier: 'Mantid', coins: 10},
-  ];
+  headerContentHidden = false;
 
   constructor(private patronServ: PatronService, private Auth: AuthService) {
     this.filterTextControl = new FormControl({value: undefined, disabled: true});
@@ -77,8 +65,131 @@ export class WalletViewComponent implements OnInit {
     return this.Auth.isAuthed();
   }
 
+  tierToNum(t: string): number {
+    switch (t) {
+      case 'Past Patron':
+        return 1;
+      case 'Hatchling':
+        return 2;
+      case 'Grub':
+        return 3;
+      case 'Moth':
+        return 4;
+      case 'Beetle':
+        return 5;
+      case 'Cicada':
+        return 6;
+      case 'Bumblebee':
+        return 7;
+      case 'Mantid':
+        return 8;
+    }
+  }
+
+  isHeaderContentHidden(): boolean {
+    return this.headerContentHidden;
+  }
+
+  setHeaderContentHidden(b: boolean) {
+    this.headerContentHidden = b;
+  }
+
+  getSortSelected(): string {
+    return this.sortSelected;
+  }
+
+  isSortSelectedEmptyOrUndef(): boolean {
+    if (this.sortSelected === undefined) {
+      return true;
+    }
+    if (this.sortSelected === '') {
+      return true;
+    }
+    return false;
+  }
+
+  setSortSelected(q: string) {
+    this.sortSelected = q;
+
+    switch (this.sortSelected) {
+      case 'uu': {
+        this.patronList.sort((a, b) => a.username.toLowerCase() < b.username.toLowerCase() ? -1
+          : a.username.toLowerCase() > b.username.toLowerCase() ? 1 : 0);
+        break;
+      }
+      case 'ud': {
+        this.patronList.sort((a, b) => a.username.toLowerCase() > b.username.toLowerCase() ? -1
+          : a.username.toLowerCase() < b.username.toLowerCase() ? 1 : 0);
+        break;
+      }
+      case 'tu': {
+        this.patronList.sort((a, b) => this.tierToNum(a.tier) < this.tierToNum(b.tier) ? -1
+          : this.tierToNum(a.tier) > this.tierToNum(b.tier) ? 1 : 0);
+        break;
+      }
+      case 'td': {
+        this.patronList.sort((a, b) => this.tierToNum(a.tier) > this.tierToNum(b.tier) ? -1
+          : this.tierToNum(a.tier) < this.tierToNum(b.tier) ? 1 : 0);
+        break;
+      }
+      case 'cu': {
+        this.patronList.sort((a, b) => a.coins < b.coins ? -1 : a.coins > b.coins ? 1 : 0);
+        break;
+      }
+      case 'cd': {
+        this.patronList.sort((a, b) => a.coins > b.coins ? -1 : a.coins < b.coins ? 1 : 0);
+        break;
+      }
+    }
+  }
+
+  resetSort() {
+    this.requestInProgress = true;
+    this.sortSelected = '';
+    this.patronList.sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+    this.requestInProgress = false;
+  }
+
   assignClass(c: string) {
     return c;
+  }
+
+  navByUrlPatreon() {
+    window.open(
+      'https://www.patreon.com/lustylamb',
+      '_blank'
+    );
+  }
+
+  navByUrlStream() {
+    window.open(
+      'https://www.picarto.tv/lustylamb',
+      '_blank'
+    );
+  }
+
+  navByUrlBCForm() {
+    window.open(
+      'http://bit.ly/BleatcoinShop',
+      '_blank'
+    );
+  }
+
+  navByUrlTOS() {
+    window.open(
+      'http://tinyurl.com/lustytos',
+      '_blank'
+    );
+  }
+
+  isSelectedSearchEmptyOrUndef() {
+    if (this.selectedSearch === undefined) {
+      return true;
+    }
+    if (this.selectedSearch === '') {
+      return true;
+    }
+    return false;
   }
 
   isSelectedSearchEmpty(): boolean {
@@ -114,12 +225,6 @@ export class WalletViewComponent implements OnInit {
       case 'username': {
         this.patronList = this.patronList.filter((v, i, a) => {
           return (v.username.toLowerCase().includes(q));
-        });
-        break;
-      }
-      case 'realname': {
-        this.patronList = this.patronList.filter((v, i, a) => {
-          return (v.realname.toLowerCase().includes(q));
         });
         break;
       }

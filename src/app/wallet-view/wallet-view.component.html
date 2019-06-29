@@ -44,7 +44,7 @@
             <mat-tab label="Filter" class="no-hide-tab">
               <mat-card>
                 <mat-card-header>
-                  <span class="filter-header">Search for yourself or others here!</span>
+                  <span class="filter-header">Search for yourself or others, or use the arrows in the headers to sort!</span>
                 </mat-card-header>
                 <mat-card-content class="filter-card-content" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
                   <div fxLayoutAlign="center center">
@@ -59,7 +59,7 @@
                     </form>
                   </div>
                   <div fxLayoutAlign="center center">
-                    <form novalidate>
+                    <form novalidate *ngIf="!isSelectedSearchEmptyOrUndef()">
                       <mat-form-field *ngIf="!selectedSearchIsTier">
                         <mat-label>Search Term</mat-label>
                         <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
@@ -80,7 +80,7 @@
             <mat-tab label="FAQ" class="hide-when-small">
               <mat-card>
                 <div class="faq-container" fxLayout="row" fxLayoutGap="8px">
-                  <div class="card">
+                  <div class="card" matTooltip="Click me to go to Lamb's ToS!" (click)="navByUrlTOS()">
                     <h3 class="title">FAQ</h3>
                     <div class="bar">
                       <div class="emptybar"></div>
@@ -116,7 +116,7 @@
             <mat-tab label="Support!" class="hide-when-small">
               <mat-card>
                 <div class="support-container" fxLayout="row" fxLayoutGap="8px">
-                  <div class="card">
+                  <div class="card" matTooltip="Click me to go to Lamb's Patreon!" (click)="navByUrlPatreon()">
                     <h3 class="title">Support</h3>
                     <div class="bar">
                       <div class="emptybar"></div>
@@ -162,7 +162,7 @@
             <mat-tab label="Streams!" class="hide-when-small">
               <mat-card>
                 <div class="streams-container" fxLayout="row" fxLayoutGap="8px">
-                  <div class="card">
+                  <div class="card" matTooltip="Click me to go to the stream!" (click)="navByUrlStream()">
                     <h3 class="title">Streams</h3>
                     <div class="bar">
                       <div class="emptybar"></div>
@@ -196,7 +196,7 @@
             <mat-tab label="Spend!" class="hide-when-small">
                 <mat-card>
                   <div class="spend-container" fxLayout="row" fxLayoutGap="8px">
-                    <div class="card">
+                    <div class="card" matTooltip="Click me to open the Bleatcoin form!" (click)="navByUrlBCForm()">
                       <h3 class="title">Spend Coins</h3>
                       <div class="bar">
                         <div class="emptybar"></div>
@@ -263,11 +263,35 @@
     </div>
     <div id="patron-list-header" *ngIf="!requestInProgress">
       <mat-card>
-        <div class="Rtable Rtable--3cols Rtable--collapse">
-          <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head"><span class="manage-header">Username</span></div>
-          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="manage-header">Patron Tier</span></div>
-          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png"></div>
-        </div>
+        <mat-card-header fxLayoutGap="4px">
+          <mat-icon *ngIf="!isHeaderContentHidden()" (click)="setHeaderContentHidden(true)" matTooltip="Collapse Header">keyboard_arrow_up</mat-icon>
+          <mat-icon *ngIf="isHeaderContentHidden()" (click)="setHeaderContentHidden(false)" matTooltip="Expand Header">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="!isSortSelectedEmptyOrUndef()" (click)="resetSort()" matTooltip="Reset sorting">refresh</mat-icon>
+        </mat-card-header>
+        <mat-card-content [ngClass]="{'header-hidden': isHeaderContentHidden()}">
+          <div class="Rtable Rtable--3cols Rtable--collapse">
+            <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head" fxLayoutGap="8px">
+              <div fxLayout="column">
+                <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'uu'}" (click)="setSortSelected('uu')" matTooltip="Ascending"></i>
+                <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'ud'}" (click)="setSortSelected('ud')" matTooltip="Descending"></i>
+              </div>
+              <span class="manage-header">Username</span></div>
+            <div fxLayoutAlign="center center" class="Rtable-cell" fxLayoutGap="8px">
+              <div fxLayout="column">
+                <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'tu'}" (click)="setSortSelected('tu')" matTooltip="Ascending"></i>
+                <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'td'}" (click)="setSortSelected('td')" matTooltip="Descending"></i>
+              </div>
+              <span class="manage-header">Patron Tier</span>
+            </div>
+            <div fxLayoutAlign="center center" class="Rtable-cell" fxLayoutGap="8px">
+              <div fxLayout="column">
+                <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cu'}" (click)="setSortSelected('cu')" matTooltip="Ascending"></i>
+                <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cd'}" (click)="setSortSelected('cd')" matTooltip="Descending"></i>
+              </div>
+              <span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+            </div>
+          </div>
+        </mat-card-content>
       </mat-card>
     </div>
     <div fxFlex id="patron-list" *ngIf="!requestInProgress" [@listAnimation]="patronList.length">

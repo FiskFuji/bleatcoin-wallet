@@ -32,8 +32,8 @@ input[type="number"] {
 }
 
 #lamb-icon-one {
-    height: 45%;
-    width: 45%;
+    height: 30%;
+    width: 30%;
 }
 
 #top-panel {
@@ -196,6 +196,14 @@ input[type="number"] {
 
 .Rtable-cell {
   margin: -3px 0 0 -3px;
+}
+
+.controls-hidden, .header-hidden {
+  display: none !important;
+}
+
+.chev-selected {
+  color: limegreen;
 }
 
 @media all and (max-width: 850px) {

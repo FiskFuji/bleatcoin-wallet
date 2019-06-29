@@ -79,8 +79,6 @@ input[type="number"] {
 
 .pricing-table tr:nth-child(even){background-color: #f1e6fc;}
 
-.pricing-table tr:hover {background-color: #ddd;}
-
 .pricing-table th {
   padding-top: 8px;
   padding-bottom: 8px;
@@ -170,7 +168,7 @@ input[type="number"] {
 .colored-text-anim {
 	color: #000;
 	background: rgba(255, 253, 160, 1);
-	background: -webkit-linear-gradient( left, #71ddf8 0%, #e797fb 25%, #9819ff 50%, #ff6a7e 100%) repeat;
+	background: -webkit-linear-gradient( left, #fd83d4 0%, #e687fd 25%, #9819ff 50%, #ff8091 100%) repeat;
 	-webkit-background-clip: text;
 	-ms-background-clip: text;
 	-moz-background-clip: text;
@@ -415,6 +413,14 @@ span {
   color: #FFF;
 }
 
+.header-hidden {
+  display: none !important;
+}
+
+.chev-selected {
+  color: limegreen;
+}
+
 @media all and (max-width: 750px) {
   .span-disappear-small {
     display: none !important;
@@ -494,7 +500,7 @@ span {
   }
 
   .welcome-text {
-    font-size: 1em !important;
+    font-size: 32px !important;
   }
 
   .lamb-button-hidden {

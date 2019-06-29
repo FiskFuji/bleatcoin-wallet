@@ -20,47 +20,53 @@
   </div>
   <div id="management-controls">
     <mat-card>
-      <div class="Rtable Rtable--4cols Rtable--collapse Rtable-special">
-        <div class="Rtable-cell Rtable-cell--head" fxLayoutAlign="center center">
-          <button mat-raised-button class="management-button" color="primary" (click)="openAddPatronDialog()" 
-            matTooltip="Add a new patron" matTooltipPosition="left">
-            <mat-icon class="icon-left-side">add_circle_outline</mat-icon>Add New Patron
-          </button>
+      <mat-card-header>
+          <mat-icon *ngIf="!isControlsHidden()" (click)="setControlsHidden(true)" matTooltip="Collapse Controls">keyboard_arrow_up</mat-icon>
+          <mat-icon *ngIf="isControlsHidden()" (click)="setControlsHidden(false)" matTooltip="Expand Controls">keyboard_arrow_down</mat-icon>
+      </mat-card-header>
+      <mat-card-content [ngClass]="{'controls-hidden': isControlsHidden()}">
+        <div class="Rtable Rtable--4cols Rtable--collapse Rtable-special">
+          <div class="Rtable-cell Rtable-cell--head" fxLayoutAlign="center center">
+            <button mat-raised-button class="management-button" color="primary" (click)="openAddPatronDialog()" 
+              matTooltip="Add a new patron" matTooltipPosition="left">
+              <mat-icon class="icon-left-side">add_circle_outline</mat-icon>Add New Patron
+            </button>
+          </div>
+          <div class="Rtable-cell" fxLayoutAlign="center center">
+            <button mat-raised-button class="management-button" color="primary" (click)="openBatchCoinAddDialog()" 
+              matTooltip="Add coins to a tier of patrons" matTooltipPosition="left">
+              <mat-icon class="icon-left-side">supervised_user_circle</mat-icon>Batch Add Coins
+            </button>
+          </div>
+          <div class="Rtable-cell" fxLayoutAlign="center center">
+            <form novalidate>
+              <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
+                <mat-label>Filter</mat-label>
+                <mat-select [(value)]="selectedSearch">
+                  <mat-option [value]='' selected>None</mat-option>
+                  <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
+          <div class="Rtable-cell Rtable-cell--foot" fxLayoutAlign="center center">
+            <form novalidate *ngIf="!isSelectedSearchEmptyOrUndef()">
+              <mat-form-field *ngIf="!selectedSearchIsTier">
+                <mat-label>Search Term</mat-label>
+                <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
+                <mat-icon matSuffix>search</mat-icon>
+              </mat-form-field>
+              <mat-form-field *ngIf="selectedSearchIsTier">
+                <mat-label>Tier</mat-label>
+                <mat-select [(value)]="selectedFilterTier" (selectionChange)="filterByCritereon()">
+                  <mat-option [value]="" selected>None</mat-option>
+                  <mat-option *ngFor="let t of availableTiers" [value]="t">{{t}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
         </div>
-        <div class="Rtable-cell" fxLayoutAlign="center center">
-          <button mat-raised-button class="management-button" color="primary" (click)="openBatchCoinAddDialog()" 
-            matTooltip="Add coins to a tier of patrons" matTooltipPosition="left">
-            <mat-icon class="icon-left-side">supervised_user_circle</mat-icon>Batch Add Coins
-          </button>
-        </div>
-        <div class="Rtable-cell" fxLayoutAlign="center center">
-          <form novalidate>
-            <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
-              <mat-label>Filter</mat-label>
-              <mat-select [(value)]="selectedSearch">
-                <mat-option [value]='' selected>None</mat-option>
-                <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </form>
-        </div>
-        <div class="Rtable-cell Rtable-cell--foot" fxLayoutAlign="center center">
-          <form novalidate>
-            <mat-form-field *ngIf="!selectedSearchIsTier">
-              <mat-label>Search Term</mat-label>
-              <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
-              <mat-icon matSuffix>search</mat-icon>
-            </mat-form-field>
-            <mat-form-field *ngIf="selectedSearchIsTier">
-              <mat-label>Tier</mat-label>
-              <mat-select [(value)]="selectedFilterTier" (selectionChange)="filterByCritereon()">
-                <mat-option [value]="" selected>None</mat-option>
-                <mat-option *ngFor="let t of availableTiers" [value]="t">{{t}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </form>
-        </div>
-      </div>
+      </mat-card-content>
     </mat-card>
   </div>
   <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
@@ -68,15 +74,46 @@
   </div>
   <div id="patron-list-header" *ngIf="!requestInProgress">
     <mat-card>
-      <div class="Rtable Rtable--7cols Rtable--collapse">
-        <div class="Rtable-cell Rtable-cell--head"><span class="manage-header">Username</span></div>
-        <div class="Rtable-cell"><span class="manage-header">Patreon Name</span></div>
-        <div class="Rtable-cell"><span class="manage-header">Patron Tier</span></div>
-        <div class="Rtable-cell"><span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png"></div>
-        <div class="Rtable-cell"><span class="manage-header">Update Coins</span></div>
-        <div class="Rtable-cell"><span class="manage-header">Edit Coins</span></div>
-        <div class="Rtable-cell Rtable-cell--foot"><span class="manage-header">Edit Details</span></div>
-      </div>
+      <mat-card-header fxLayoutGap="4px">
+        <mat-icon *ngIf="!isHeaderContentHidden()" (click)="setHeaderContentHidden(true)" matTooltip="Collapse Header">keyboard_arrow_up</mat-icon>
+        <mat-icon *ngIf="isHeaderContentHidden()" (click)="setHeaderContentHidden(false)" matTooltip="Expand Header">keyboard_arrow_down</mat-icon>
+        <mat-icon *ngIf="!isSortSelectedEmptyOrUndef()" (click)="resetSort()" matTooltip="Reset sorting">refresh</mat-icon>
+      </mat-card-header>
+      <mat-card-content [ngClass]="{'header-hidden': isHeaderContentHidden()}">
+        <div class="Rtable Rtable--7cols Rtable--collapse">
+          <div class="Rtable-cell Rtable-cell--head" fxLayoutAlign="center center" fxLayoutGap="8px">
+            <div fxLayout="column">
+              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'uu'}" (click)="setSortSelected('uu')" matTooltip="Ascending"></i>
+              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'ud'}" (click)="setSortSelected('ud')" matTooltip="Descending"></i>
+            </div>
+            <span class="manage-header">Username</span>
+          </div>
+          <div class="Rtable-cell" fxLayoutAlign="center center" fxLayoutGap="8px">
+            <div fxLayout="column">
+              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'pu'}" (click)="setSortSelected('pu')" matTooltip="Ascending"></i>
+              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'pd'}" (click)="setSortSelected('pd')" matTooltip="Descending"></i>
+            </div>
+            <span class="manage-header">Patreon Name</span>
+          </div>
+          <div class="Rtable-cell" fxLayoutAlign="center center" fxLayoutGap="8px">
+            <div fxLayout="column">
+              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'tu'}" (click)="setSortSelected('tu')" matTooltip="Ascending"></i>
+              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'td'}" (click)="setSortSelected('td')" matTooltip="Descending"></i>
+            </div>
+            <span class="manage-header">Patron Tier</span>
+          </div>
+          <div class="Rtable-cell" fxLayoutAlign="center center" fxLayoutGap="8px">
+            <div fxLayout="column">
+              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cu'}" (click)="setSortSelected('cu')" matTooltip="Ascending"></i>
+              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cd'}" (click)="setSortSelected('cd')" matTooltip="Descending"></i>
+            </div>
+            <span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+          </div>
+          <div class="Rtable-cell" fxLayoutAlign="center center"><span class="manage-header">Update Coins</span></div>
+          <div class="Rtable-cell" fxLayoutAlign="center center"><span class="manage-header">Edit Coins</span></div>
+          <div class="Rtable-cell Rtable-cell--foot" fxLayoutAlign="center center"><span class="manage-header">Edit Details</span></div>
+        </div>
+      </mat-card-content>
     </mat-card>
   </div>
   <div fxFlex id="patron-list" *ngIf="!requestInProgress" [@listAnimation]="patronList.length">
