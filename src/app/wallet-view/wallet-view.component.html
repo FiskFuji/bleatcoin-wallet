@@ -77,32 +77,15 @@
                 </mat-card-content>
               </mat-card>
             </mat-tab>
-            <mat-tab label="FAQ" class="hide-when-small">
+            <mat-tab label="Info" class="hide-when-small">
               <mat-card>
                 <div class="faq-container" fxLayout="row" fxLayoutGap="8px">
-                  <div class="card" matTooltip="Click me to go to Lamb's ToS!" (click)="navByUrlTOS()">
-                    <h3 class="title">FAQ</h3>
-                    <div class="bar">
-                      <div class="emptybar"></div>
-                      <div class="filledbar"></div>
-                    </div>
-                    <div class="circle">
-                      <img src="../../assets/bleatcoin-max.png" class="bleatcoin-mid hvr-bob">
-                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="stroke" cx="60" cy="60" r="50"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <mat-divider [vertical]="true"></mat-divider>
                   <div fxLayout="column" fxLayoutAlign="space-between">
                     <div fxLayout="column">
-                      <h3 class="lora-font"><mat-icon>contact_support</mat-icon> Got Questions?</h3>
-                      <h5 class="lora-font stream-info-text">Q: What are your commission terms?</h5>
-                      <span class="lora-font">A: My TOS are located <a href="http://tinyurl.com/lustytos">here</a>.</span>
-                      <h5 class="lora-font stream-info-text">Q: What will/wont you draw?</h5>
-                      <span class="lora-font">A: Check this f-list <a href="https://www.f-list.net/c/lustylamb%20comms">here</a>.</span>
-                      <h5 class="lora-font stream-info-text">Q: What's a 'Bleatcoin'?</h5>
-                      <span class="lora-font">Bleatcoins are Patreon rewards that can be exchanged for art!</span>
+                      <h3 class="lora-font"><mat-icon>contact_support</mat-icon> Questions?</h3>
+                      <h5 class="lora-font stream-info-text">
+                        All of Lamb's contact and commission information can be found <a matTooltip="https://lamb-art.carrd.co/" href="https://lamb-art.carrd.co/" target="_blank">here</a>.
+                      </h5>
                     </div>
                     <div>
                       <span class="lora-font lora-font-smaller">
@@ -139,9 +122,9 @@
                       <li>Pre-purchase slots in streams!</li>
                       <li>Early access to prompts, commissions, adoptables, etc.!</li>
                       <li>Earn Bleatcoins to redeem for rewards!</li>
+                      <li>Or find Lamb in the places below:</li>
                     </ul>
                     <div fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center">
-                      <span class="lora-font span-disappear-small">Find Lamb here: </span>
                       <a href="https://www.patreon.com/lustylamb" target="_blank">
                         <button matTooltip="Patreon" mat-raised-button class="fa-patreon-a hvr-float-shadow"><i class="fab fa-patreon fa-lg"></i></button>
                       </a>
@@ -154,41 +137,13 @@
                       <a href="http://www.picarto.tv/lustylamb" target="_blank">
                         <button matTooltip="Picarto" mat-raised-button class="fa-picarto-a hvr-float-shadow"><i class="fas fa-paint-brush fa-lg"></i></button>
                       </a>
-                    </div>
-                  </div>
-                </div>
-              </mat-card>
-            </mat-tab>
-            <mat-tab label="Streams!" class="hide-when-small">
-              <mat-card>
-                <div class="streams-container" fxLayout="row" fxLayoutGap="8px">
-                  <div class="card" matTooltip="Click me to go to the stream!" (click)="navByUrlStream()">
-                    <h3 class="title">Streams</h3>
-                    <div class="bar">
-                      <div class="emptybar"></div>
-                      <div class="filledbar"></div>
-                    </div>
-                    <div class="circle">
-                      <img src="../../assets/bleatcoin-max.png" class="bleatcoin-mid hvr-bob">
-                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="stroke" cx="60" cy="60" r="50"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <mat-divider [vertical]="true"></mat-divider>
-                  <div fxLayout="column" fxLayoutAlign="start center">
-                    <h3 class="lora-font"><mat-icon>today</mat-icon> Current Stream Schedule:</h3>
-                    <h5 class="lora-font stream-info-text">Normal Streams</h5>
-                    <span class="lora-font">Tuesday ~7:00PM EST - 2:00AM EST</span>
-                    <span class="lora-font">Friday ~7:00PM EST - 2:00AM EST</span>
-                    <span class="lora-font">Sunday ~7:00PM EST - 2:00AM EST</span>
-                    <h5 class="lora-font stream-info-text">Patreon Streams</h5>
-                    <span class="lora-font">First Saturday after the 5th of each month.</span>
-                    <h4 class="lora-font stream-info-text">
-                      Catch the stream here <a href="http://www.picarto.tv/lustylamb" target="_blank">
-                        <button matTooltip="https://www.picarto.tv/lustylamb" mat-raised-button class="fa-picarto-a hvr-float-shadow"><i class="fas fa-paint-brush fa-lg"></i></button>
+                      <a href="https://t.me/LustyLamb" target="_blank">
+                        <button matTooltip="Telegram" mat-raised-button class="fa-twitter-a hvr-float-shadow"><i class="fab fa-telegram-plane fa-lg"></i></button>
                       </a>
-                    </h4>
+                      <a href="https://www.redbubble.com/people/weepysheep" target="_blank">
+                        <button matTooltip="RedBubble" mat-raised-button class="fa-redbubble-a hvr-float-shadow"><i class="fas fa-tshirt fa-lg"></i></button>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </mat-card>
