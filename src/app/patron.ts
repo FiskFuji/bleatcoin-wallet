@@ -11,4 +11,4 @@ export interface PromiseStructure {
   message?: string;
 }
 
-export const PatronTiers: string[] = ['Past Patron', 'Hatchling', 'Grub', 'Moth', 'Beetle', 'Cicada', 'Bumblebee', 'Mantid'];
+export const PatronTiers: string[] = ['Past Patron', 'Hatchling', 'Grub', 'Moth', 'Beetle', 'Cicada', 'Bumblebee', 'Mantid', 'Firefly'];
