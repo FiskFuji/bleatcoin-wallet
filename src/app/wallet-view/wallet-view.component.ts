@@ -83,6 +83,8 @@ export class WalletViewComponent implements OnInit {
         return 7;
       case 'Mantid':
         return 8;
+      case 'Firefly':
+        return 9;
     }
   }
 
