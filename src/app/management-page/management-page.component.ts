@@ -262,6 +262,7 @@ export class ManagementPageComponent implements OnInit {
               ])});
             }
             this.copyOfPatronList = this.patronList;
+            this.sortSelected = '';
           },
           (e) => {
             // do nothing with error...
@@ -318,6 +319,7 @@ export class ManagementPageComponent implements OnInit {
                 Validators.max(99999)
               ])});
             }
+            this.sortSelected = '';
             this.copyOfPatronList = this.patronList;
           },
           (e) => {
@@ -374,6 +376,7 @@ export class ManagementPageComponent implements OnInit {
                     Validators.max(99999)
                   ])});
                 }
+                this.sortSelected = '';
                 this.copyOfPatronList = this.patronList;
               },
               (e) => {
@@ -426,6 +429,7 @@ export class ManagementPageComponent implements OnInit {
                       Validators.max(99999)
                     ])});
                   }
+                  this.sortSelected = '';
                   this.copyOfPatronList = this.patronList;
                 },
                 (e) => {
