@@ -42,7 +42,7 @@
                     <form novalidate>
                       <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
                         <mat-label>Filter</mat-label>
-                        <mat-select [(value)]="sortSelected" (selectionChange)="filterByCriterion(sortSelected)">
+                        <mat-select [(value)]="sortSelected" (selectionChange)="filterByCriterion()">
                           <mat-option [value]='' selected>None</mat-option>
                           <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
                         </mat-select>
