@@ -6,34 +6,14 @@ $primary: mat-palette($mat-deep-purple);
 $accent:  mat-palette($mat-amber, A200, A100, A400);
 
 :host {
-    position: absolute;
-    height: inherit;
-    width: inherit;
-}
-
-#all-content {
-  height: 100% !important;
-}
-
-#content {
-  background-image: linear-gradient(-90deg, rgba(26, 26, 165, 0.9), rgba(160, 17, 160, 0.9));
-  padding-left: 4px;
-  padding-right: 4px;
-  min-height: 600px;
+  position: absolute;
+  height: inherit;
+  width: inherit;
 }
 
 mat-card {
   margin: 4px;
   background-color: rgba(255, 255, 255, 0.75);
-}
-
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
 }
 
 #patron-list {
@@ -86,9 +66,8 @@ input[type="number"] {
 }
 
 .bleatcoin {
-  height: 32px;
-  width: 32px;
-  margin-left: 8px;
+  height: 40px;
+  width: 40px;
 }
 
 .bleatcoin-small {
@@ -103,14 +82,6 @@ input[type="number"] {
 
 .icon-left-side {
   margin-right: 8px;
-}
-
-.manage-header, .user-info {
-  font-size: 18px;
-}
-
-.coins-display {
-  font-size: 20px;
 }
 
 .home-title span {
@@ -193,96 +164,6 @@ input[type="number"] {
 	}
 }
 
-.Rtable {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 0 3em 0;
-  padding: 0;
-}
-
-.Rtable-cell {
-  box-sizing: border-box;
-  flex-grow: 1;
-  width: 100%;
-  padding: 0.8em 1.2em;
-  overflow: hidden;
-  list-style: none;
-  border: solid 3px rgb(77, 77, 77);
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.Rtable-cell > h1,
-.Rtable-cell > h2,
-.Rtable-cell > h3,
-.Rtable-cell > h4,
-.Rtable-cell > h5,
-.Rtable-cell > h6 {
-  margin: 0;
-}
-
-.Rtable--3cols > .Rtable-cell {
-  width: 33.3%;
-}
-
-.Rtable--4cols > .Rtable-cell {
-  width: 25%;
-}
-
-.Rtable--7cols > .Rtable-cell {
-  width: 14.28%;
-}
-
-.Rtable {
-  position: relative;
-  top: 3px;
-  left: 3px;
-}
-
-.Rtable-cell {
-  margin: -3px 0 0 -3px;
-}
-
-@media all and (max-width: 850px) {
-  .Rtable--collapse {
-    display: flex !important;
-  }
-
-  .Rtable--collapse > .Rtable-cell {
-    width: 50% !important;
-  }
-
-  .Rtable--collapse > .Rtable-cell--foot {
-    margin-bottom: 1em;
-  }
-
-  .Rtable-special {
-    display: flex !important;
-  }
-
-  .Rtable-special > .Rtable-cell {
-    width: 50% !important;
-  }
-}
-
-.no-flexbox .Rtable {
-  display: block;
-}
-
-.no-flexbox .Rtable > .Rtable-cell {
-  width: 100%;
-}
-
-.no-flexbox .Rtable > .Rtable-cell--foot {
-  margin-bottom: 1em;
-}
-
-.Rtable-special {
-  .Rtable-cell {
-    border: none !important;
-    background: none !important;
-  }
-}
-
 span {
   font-family: 'Lora', serif !important;
 }
@@ -308,45 +189,94 @@ span {
   margin-top: 12px;
 }
 
+.chip-container {
+  padding: 0 20px;
+  width: 100%;
+}
+
+.p-chip {
+  margin: 8px;
+}
+
+.b-header {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.p-card {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 14px;
+  min-width: 275px;
+  min-height: 350px;
+}
+
+.separator {
+  width: 33%;
+  margin: 0 0 12px 0 !important;
+}
+
+.username {
+  font-weight: 700;
+  font-size: 42px;
+}
+
+.tier {
+  font-size: 36px;
+}
+
+.coins {
+  font-weight: 700;
+  font-size: 48px;
+}
+
+.coins-wrapper {
+  margin-top: 20px;
+}
+
 // Patron tier colors
+.Past {
+  color: rgb(66, 201, 255);
+  //text-shadow: -1px 1px #000;
+}
+
 .Hatchling {
   color: rgb(255, 32, 32);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .Grub {
   color: rgb(180, 51, 255);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .Moth {
   color: rgb(56, 135, 255);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .Beetle {
   color: rgb(73, 219, 139);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .Cicada {
   color: rgb(6, 190, 6);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .Bumblebee {
   color: rgb(255, 219, 15);
-  text-shadow: -1px 1px #000;
+  text-shadow: -1px 2px #000;
 }
 
 .Mantid {
   color: rgb(226, 147, 0);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .Firefly {
   color: rgb(255, 38, 121);
-  text-shadow: -1px 1px #000;
+  //text-shadow: -1px 1px #000;
 }
 
 .tabs-display-small {
@@ -450,25 +380,20 @@ span {
 }
 
 @media all and (max-width: 525px) {
-  .Rtable--collapse {
-    display: block !important;
+  .username {
+    font-weight: 700;
+    font-size: 32px;
   }
-
-  .Rtable--collapse > .Rtable-cell {
-    width: 100% !important;
+  
+  .tier {
+    font-size: 30px;
   }
-
-  .Rtable--collapse > .Rtable-cell--foot {
-    margin-bottom: 1em;
+  
+  .coins {
+    font-weight: 700;
+    font-size: 40px;
   }
-
-  .Rtable-special {
-    display: block !important;
-  }
-
-  .Rtable-special > .Rtable-cell {
-    width: 100% !important;
-  }
+  
 
   .top-panel-container {
     flex-direction: column !important;
@@ -480,23 +405,6 @@ span {
 
   #patron-list-header {
     display: none !important;
-  }
-
-  .Rtable-special {
-    .Rtable-cell {
-      margin-top: 0px !important;
-      margin-bottom: 0px !important;
-      padding: 4px !important;
-    }
-  }
-
-  .Rtable-cell {
-    padding: 4px 1.2em !important;
-  }
-
-  mat-card {
-    padding: 4px !important;
-    margin: 0px;
   }
 
   .patron-display-card {

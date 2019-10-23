@@ -8,7 +8,7 @@ import { LogEntry } from './logentry';
 })
 export class LoggingService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   getLogs() {
     return this.http.get<LogEntry[]>('https://bleatcoin-logs.herokuapp.com/api/allLogs');

@@ -16,21 +16,12 @@
                 <mat-card-content class="filter-card-content" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="4px">
                   <div fxLayoutAlign="center center">
                     <form novalidate>
-                      <mat-form-field matTooltip="Category to filter by" matTooltipPosition="right">
+                      <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
                         <mat-label>Filter</mat-label>
-                        <mat-select [(value)]="selectedSearch">
+                        <mat-select [(value)]="sortSelected" (selectionChange)="filterByCriterion(sortSelected)">
                           <mat-option [value]='' selected>None</mat-option>
                           <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
                         </mat-select>
-                      </mat-form-field>
-                    </form>
-                  </div>
-                  <div fxLayoutAlign="center center">
-                    <form novalidate>
-                      <mat-form-field>
-                        <mat-label>Search Term</mat-label>
-                        <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
-                        <mat-icon matSuffix>search</mat-icon>
                       </mat-form-field>
                     </form>
                   </div>
@@ -44,32 +35,16 @@
             <mat-tab label="Filter" class="no-hide-tab">
               <mat-card>
                 <mat-card-header>
-                  <span class="filter-header">Search for yourself or others, or use the arrows in the headers to sort!</span>
+                  <span class="filter-header">Use the filtering options to help find your card!</span>
                 </mat-card-header>
                 <mat-card-content class="filter-card-content" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
                   <div fxLayoutAlign="center center">
                     <form novalidate>
-                      <mat-form-field matTooltip="Category to filter by" matTooltipPosition="right">
+                      <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
                         <mat-label>Filter</mat-label>
-                        <mat-select [(value)]="selectedSearch">
-                          <mat-option [value]="" selected>None</mat-option>
+                        <mat-select [(value)]="sortSelected" (selectionChange)="filterByCriterion(sortSelected)">
+                          <mat-option [value]='' selected>None</mat-option>
                           <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </form>
-                  </div>
-                  <div fxLayoutAlign="center center">
-                    <form novalidate *ngIf="!isSelectedSearchEmptyOrUndef()">
-                      <mat-form-field *ngIf="!selectedSearchIsTier">
-                        <mat-label>Search Term</mat-label>
-                        <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
-                        <mat-icon matSuffix>search</mat-icon>
-                      </mat-form-field>
-                      <mat-form-field *ngIf="selectedSearchIsTier">
-                        <mat-label>Tier</mat-label>
-                        <mat-select [(value)]="selectedFilterTier" (selectionChange)="filterByCritereon()">
-                          <mat-option [value]="" selected>None</mat-option>
-                          <mat-option *ngFor="let t of availableTiers" [value]="t">{{t}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                     </form>
@@ -212,56 +187,26 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div id="content" fxFlex fxLayout="column">
-    <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
-      <mat-spinner color="accent"></mat-spinner>
-    </div>
-    <div id="patron-list-header" *ngIf="!requestInProgress">
-      <mat-card>
-        <mat-card-header fxLayoutGap="4px">
-          <mat-icon *ngIf="!isHeaderContentHidden()" (click)="setHeaderContentHidden(true)" matTooltip="Collapse Header">keyboard_arrow_up</mat-icon>
-          <mat-icon *ngIf="isHeaderContentHidden()" (click)="setHeaderContentHidden(false)" matTooltip="Expand Header">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="!isSortSelectedEmptyOrUndef()" (click)="resetSort()" matTooltip="Reset sorting">refresh</mat-icon>
-        </mat-card-header>
-        <mat-card-content [ngClass]="{'header-hidden': isHeaderContentHidden()}">
-          <div class="Rtable Rtable--3cols Rtable--collapse">
-            <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head" fxLayoutGap="8px">
-              <div fxLayout="column">
-                <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'uu'}" (click)="setSortSelected('uu')" matTooltip="Ascending"></i>
-                <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'ud'}" (click)="setSortSelected('ud')" matTooltip="Descending"></i>
-              </div>
-              <span class="manage-header">Username</span></div>
-            <div fxLayoutAlign="center center" class="Rtable-cell" fxLayoutGap="8px">
-              <div fxLayout="column">
-                <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'tu'}" (click)="setSortSelected('tu')" matTooltip="Ascending"></i>
-                <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'td'}" (click)="setSortSelected('td')" matTooltip="Descending"></i>
-              </div>
-              <span class="manage-header">Patron Tier</span>
-            </div>
-            <div fxLayoutAlign="center center" class="Rtable-cell" fxLayoutGap="8px">
-              <div fxLayout="column">
-                <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cu'}" (click)="setSortSelected('cu')" matTooltip="Ascending"></i>
-                <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cd'}" (click)="setSortSelected('cd')" matTooltip="Descending"></i>
-              </div>
-              <span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png">
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div fxFlex id="patron-list" *ngIf="!requestInProgress" [@listAnimation]="patronList.length">
-      <mat-card class="patron-display-card" *ngFor="let p of patronList; let i = index">
-        <mat-card-content>
-          <div class="Rtable Rtable--3cols Rtable--collapse">
-            <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head"><span class="username-display user-info">{{p.username}}</span></div>
-            <div fxLayoutAlign="center center" class="Rtable-cell"><span class="tier-display user-info" [ngClass]="assignClass(p.tier)">{{p.tier}}</span></div>
-            <div fxLayoutAlign="center center" class="Rtable-cell">
-              <span class="coins-display user-info">{{p.coins}}</span>
+  <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
+  <div fxFlex class="chip-container patron-list" *ngIf="!requestInProgress">
+    <mat-chip-list fxLayout="row" [selectable]="false">
+      <mat-basic-chip *ngFor="let pat of patronList" class="p-chip" [disableRipple]="true">
+        <mat-card fxGrowfxLayout="column" fxLayoutGap="12px" fxLayoutAlign="center center" class="p-card">
+          <mat-card-content class="p-card-content" fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="8px">
+            <span class="username">{{pat.username}}</span>
+            <hr class="separator">
+            <span class="tier" [ngClass]="assignClass(pat.tier)">{{pat.tier}}</span>
+            <div class="coins-wrapper" fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="start center">
               <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+              <span class="coins">
+                {{pat.coins}}
+              </span>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>      
+          </mat-card-content>
+        </mat-card>
+      </mat-basic-chip>
+    </mat-chip-list>
+  </div>    
 </div>

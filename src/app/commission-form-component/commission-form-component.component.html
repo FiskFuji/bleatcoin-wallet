@@ -1,0 +1,73 @@
+<div id="content">
+  <div class="chip-container fake-patron-list">
+    <mat-chip-list fxFlex fxLayout="row" [selectable]="false">
+      <mat-basic-chip *ngFor="let p of FAKE_PATRONS; let i = index" class="p-chip" [disableRipple]="true">
+        <mat-card fxLayout="column" fxLayoutGap="12px" class="p-card">
+          <mat-card-title class="b-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <button mat-mini-fab class="edit-button" color="accent">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-mini-fab class="delete-button" color="warn">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-card-title>
+          <mat-card-content fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="8px">
+            <div fxLayout="column" fxLayoutGap="2px" fxLayoutAlign="center center">
+              <span class="username">{{p.username}}</span>
+              <span class="patreon-name">AKA: {{p.realname}}</span>
+            </div>
+            <hr class="separator">
+            <span class="tier" [ngClass]="assignClass(p.tier)">{{p.tier}}</span>
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="24px">
+              <div fxLayout="column" fxLayoutGap="4px" fxLayoutAlign="center center">
+                <div fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="start center">
+                  <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+                  <span class="coins" [ngClass]="{'greentext': coinsHigherThanInitial(i), 'redtext': coinsLowerThanInitial(i), 'blacktext': noCoinsChange(i)}">{{controls[i].value}}</span>
+                </div>
+                <div class="mod-coins-text">
+                  <span *ngIf="noCoinsChange(i)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  <span *ngIf="coinsHigherThanInitial(i)">+ {{getCoinDiff(i)}} coins</span>
+                  <span *ngIf="coinsLowerThanInitial(i)">- {{getCoinDiff(i)}} coins</span>
+                </div>
+              </div>
+              <div class="buttons" fxLayout="row" fxLayoutGap="6px">
+                <button mat-mini-fab color="primary" (click)="increment(i)">+</button>
+                <button mat-mini-fab color="primary" (click)="decrement(i)">—</button>
+              </div>
+            </div>
+            <button class="save-button" mat-raised-button color="accent">Save</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-basic-chip>
+    </mat-chip-list>
+  </div>
+
+  <!-- Custom Image Rendering Chips -->
+  <!-- <form novalidate fxLayout="column" fxLayoutGap="8px">
+    <mat-card>
+      <mat-form-field>
+        <mat-select [(value)]="maxRes">
+          <mat-option *ngFor="let r of maxResList" [value]="r">{{r}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+    <div class="chip-container" fxLayoutGap="8px" fxLayout="row" fxFlex>
+      <mat-chip-list>
+        <mat-chip *ngFor="let u of imgUrlList" 
+                  class="chip"
+                  [style.min-height]="maxResPlus"
+                  [style.min-width]="maxResPlus" 
+                  fxLayoutAlign="center center"
+                  (click)="openImageNewTab(u)"
+                  matTooltip="open source in new tab">
+          <img class="chip-img" src="{{u}}" [style.max-height]="maxRes" [style.max-width]="maxRes"> 
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <mat-card>
+      <mat-chip-list>
+        <mat-chip *ngFor="let t of themesList">{{t.theme}} <span fxLayoutAlign="center center" class="priority-chip" [style.color]="getColor(t.priority)">{{t.priority}}</span></mat-chip>
+      </mat-chip-list>
+    </mat-card>
+  </form> -->
+</div>

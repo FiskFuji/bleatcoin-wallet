@@ -15,6 +15,7 @@ import { MatButtonModule,
   MatRadioModule,
   MatTabsModule,
   MatCardModule,
+  MatChipsModule,
   MatListModule,
   MatDividerModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -37,6 +38,7 @@ import { LoggingViewComponent } from './logging-view/logging-view.component';
 import { DeleteAllLogsDialogComponent } from './delete-all-logs-dialog/delete-all-logs-dialog.component';
 import { DeleteLogWarningDialogComponent } from './delete-log-warning-dialog/delete-log-warning-dialog.component';
 import { AddLogDialogComponent } from './add-log-dialog/add-log-dialog.component';
+import { CommissionFormComponentComponent } from './commission-form-component/commission-form-component.component';
 
 const appRoutes: Routes = [
   {path: 'Welcome', component: HomePageComponent, data: {page: 'welcome'}},
@@ -58,7 +60,8 @@ const appRoutes: Routes = [
   {path: 'Logs', component: LoggingViewComponent, data: {page: 'logs'}},
   {path: 'logs', redirectTo: '/Logs', pathMatch: 'full'},
   {path: 'Log', redirectTo: '/Logs', pathMatch: 'full'},
-  {path: 'log', redirectTo: '/Logs', pathMatch: 'full'}
+  {path: 'log', redirectTo: '/Logs', pathMatch: 'full'},
+  {path: 'experimental', component: CommissionFormComponentComponent, data: {page: 'experimental'}}
 ];
 @NgModule({
   declarations: [
@@ -74,7 +77,8 @@ const appRoutes: Routes = [
     LoggingViewComponent,
     DeleteAllLogsDialogComponent,
     DeleteLogWarningDialogComponent,
-    AddLogDialogComponent
+    AddLogDialogComponent,
+    CommissionFormComponentComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -98,6 +102,7 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatCardModule,
+    MatChipsModule,
     MatRadioModule,
     MatTabsModule,
     MatDividerModule,

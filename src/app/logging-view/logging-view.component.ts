@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 
 import { LogEntry, LogType } from '../logentry';
 
@@ -17,25 +16,11 @@ import { AddLogDialogComponent } from '../add-log-dialog/add-log-dialog.componen
   selector: 'app-logging-view',
   templateUrl: './logging-view.component.html',
   styleUrls: ['./logging-view.component.scss'],
-  animations: [
-    trigger('listAnimation', [
-      transition('* => *', [
-
-        query(':enter', style({ opacity: 0 }), {optional: true}),
-
-        query(':enter', stagger('200ms', [
-          animate('1s ease-in', keyframes([
-            style({opacity: 0, transform: 'translateY(-75%)', offset: 0}),
-            style({opacity: .5, transform: 'translateY(35px)',  offset: 0.3}),
-            style({opacity: 1, transform: 'translateY(0)',     offset: 1.0}),
-          ]))]), {optional: true})
-      ])
-    ])
-  ]
 })
 
 export class LoggingViewComponent implements OnInit {
   requestInProgress = true;
+  LOG_ENTRY_THRESHOLD_WARNING = 3000;
   logs: LogEntry[] = [];
   copyOfLogs: LogEntry[] = [];
   filterOptions: string[] = [
@@ -55,9 +40,11 @@ export class LoggingViewComponent implements OnInit {
           this.logs = res;
           this.copyOfLogs = res;
 
-          if (this.logs.length > 2000) {
+          if (this.logs.length > this.LOG_ENTRY_THRESHOLD_WARNING) {
             this.snackBar.open(
-              'Over 2000 log entries. Database integrity may fall. Please delete unneeded entries.', 'Dismiss', {duration: 5000}
+              'Over' + this.LOG_ENTRY_THRESHOLD_WARNING + 'log entries. Database integrity may fall. Please delete unneeded entries.',
+              'Dismiss',
+              {duration: 5000}
             );
           }
         },

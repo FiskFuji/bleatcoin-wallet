@@ -33,7 +33,7 @@ export class EditPatronDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) readonly data: AddOrEditPatron, readonly dialogRef: MatDialogRef<EditPatronDialogComponent>,
     private patronServ: PatronService, private Log: LoggingService, public datePipe: DatePipe) {
-      if(data.addingNewPatron) {
+      if (data.addingNewPatron) {
         this.currentPatron = {
           id: data.id,
           username: '',
@@ -114,7 +114,10 @@ export class EditPatronDialogComponent implements OnInit {
     this.patronServ.updatePatron(this.currentPatron).then(
       (r) => {
         // success
-        const logmsg = 'Updated ' + this.currentPatron.realname + '\'s details. ' + cmsg + ' New total: ' + this.currentPatron.coins;
+        let logmsg = 'Updated ' + this.currentPatron.realname + '\'s details. ';
+        // coins were added or removed.
+        logmsg += (this.patronInitialCoins - this.currentPatron.coins === 0) ? ' No coin changes made. Total: ' : (cmsg + ' New total: ');
+        logmsg += this.currentPatron.coins;
         this.Log.createLog(
           this.generateDateString(),
           LogType.edit,

@@ -12,21 +12,22 @@
               Logout <mat-icon>undo</mat-icon>
             </button>
             <a routerLink="/Logs">
-              <button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">Logs <mat-icon>view_headline</mat-icon></button>
+              <button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary"><mat-icon>view_headline</mat-icon> Logs</button>
             </a>
             <a routerLink="/Wallet"><button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">To Public View</button></a>
-            <!-- <a routerLink="/experimental"><button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">Experimental</button></a> -->
+            <button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary" (click)="downloadAsCSV()"><mat-icon>arrow_downward</mat-icon> Download CSV</button>
+            <a *ngIf="false" routerLink="/experimental"><button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">Experimental</button></a>
         </div>
     </mat-card>
   </div>
-  <div id="management-controls">
-    <mat-card>
+  <div id="management-controls" *ngIf="!requestInProgress">
+    <mat-card class="top-panel-container">
       <mat-card-header>
           <mat-icon *ngIf="!isControlsHidden()" (click)="setControlsHidden(true)" matTooltip="Collapse Controls">keyboard_arrow_up</mat-icon>
           <mat-icon *ngIf="isControlsHidden()" (click)="setControlsHidden(false)" matTooltip="Expand Controls">keyboard_arrow_down</mat-icon>
       </mat-card-header>
       <mat-card-content [ngClass]="{'controls-hidden': isControlsHidden()}">
-        <div class="Rtable Rtable--4cols Rtable--collapse Rtable-special">
+        <div class="Rtable Rtable--3cols Rtable--collapse Rtable-special">
           <div class="Rtable-cell Rtable-cell--head" fxLayoutAlign="center center">
             <button mat-raised-button class="management-button" color="primary" (click)="openAddPatronDialog()" 
               matTooltip="Add a new patron" matTooltipPosition="left">
@@ -43,25 +44,9 @@
             <form novalidate>
               <mat-form-field matTooltip="Category to filter by" matTooltipPosition="left">
                 <mat-label>Filter</mat-label>
-                <mat-select [(value)]="selectedSearch">
+                <mat-select [(value)]="sortSelected" (selectionChange)="filterByCriterion(sortSelected)">
                   <mat-option [value]='' selected>None</mat-option>
                   <mat-option *ngFor="let o of filterOptions; let i = index" [value]="o">{{filterOptionsDisplay[i]}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </form>
-          </div>
-          <div class="Rtable-cell Rtable-cell--foot" fxLayoutAlign="center center">
-            <form novalidate *ngIf="!isSelectedSearchEmptyOrUndef()">
-              <mat-form-field *ngIf="!selectedSearchIsTier">
-                <mat-label>Search Term</mat-label>
-                <input matInput type="text" [formControl]="filterTextControl" [disableControl]="isSelectedSearchEmpty()" (keyup)="filterByCritereon()">
-                <mat-icon matSuffix>search</mat-icon>
-              </mat-form-field>
-              <mat-form-field *ngIf="selectedSearchIsTier">
-                <mat-label>Tier</mat-label>
-                <mat-select [(value)]="selectedFilterTier" (selectionChange)="filterByCritereon()">
-                  <mat-option [value]="" selected>None</mat-option>
-                  <mat-option *ngFor="let t of availableTiers" [value]="t">{{t}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </form>
@@ -73,89 +58,48 @@
   <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
     <mat-spinner color="accent"></mat-spinner>
   </div>
-  <div id="patron-list-header" *ngIf="!requestInProgress">
-    <mat-card>
-      <mat-card-header fxLayoutGap="4px">
-        <mat-icon *ngIf="!isHeaderContentHidden()" (click)="setHeaderContentHidden(true)" matTooltip="Collapse Header">keyboard_arrow_up</mat-icon>
-        <mat-icon *ngIf="isHeaderContentHidden()" (click)="setHeaderContentHidden(false)" matTooltip="Expand Header">keyboard_arrow_down</mat-icon>
-        <mat-icon *ngIf="!isSortSelectedEmptyOrUndef()" (click)="resetSort()" matTooltip="Reset sorting">refresh</mat-icon>
-      </mat-card-header>
-      <mat-card-content [ngClass]="{'header-hidden': isHeaderContentHidden()}">
-        <div class="Rtable Rtable--7cols Rtable--collapse">
-          <div class="Rtable-cell Rtable-cell--head" fxLayoutAlign="center center" fxLayoutGap="8px">
-            <div fxLayout="column">
-              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'uu'}" (click)="setSortSelected('uu')" matTooltip="Ascending"></i>
-              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'ud'}" (click)="setSortSelected('ud')" matTooltip="Descending"></i>
-            </div>
-            <span class="manage-header">Username</span>
-          </div>
-          <div class="Rtable-cell" fxLayoutAlign="center center" fxLayoutGap="8px">
-            <div fxLayout="column">
-              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'pu'}" (click)="setSortSelected('pu')" matTooltip="Ascending"></i>
-              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'pd'}" (click)="setSortSelected('pd')" matTooltip="Descending"></i>
-            </div>
-            <span class="manage-header">Patreon Name</span>
-          </div>
-          <div class="Rtable-cell" fxLayoutAlign="center center" fxLayoutGap="8px">
-            <div fxLayout="column">
-              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'tu'}" (click)="setSortSelected('tu')" matTooltip="Ascending"></i>
-              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'td'}" (click)="setSortSelected('td')" matTooltip="Descending"></i>
-            </div>
-            <span class="manage-header">Patron Tier</span>
-          </div>
-          <div class="Rtable-cell" fxLayoutAlign="center center" fxLayoutGap="8px">
-            <div fxLayout="column">
-              <i class="fas fa-chevron-up fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cu'}" (click)="setSortSelected('cu')" matTooltip="Ascending"></i>
-              <i class="fas fa-chevron-down fa-sm" [ngClass]="{'chev-selected': getSortSelected() === 'cd'}" (click)="setSortSelected('cd')" matTooltip="Descending"></i>
-            </div>
-            <span class="manage-header">Bleatcoins</span><img class="bleatcoin" src="../../assets/bleatcoin-max.png">
-          </div>
-          <div class="Rtable-cell" fxLayoutAlign="center center"><span class="manage-header">Update Coins</span></div>
-          <div class="Rtable-cell" fxLayoutAlign="center center"><span class="manage-header">Edit Coins</span></div>
-          <div class="Rtable-cell Rtable-cell--foot" fxLayoutAlign="center center"><span class="manage-header">Edit Details</span></div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxFlex id="patron-list" *ngIf="!requestInProgress" [@listAnimation]="patronList.length">
-    <mat-card *ngIf="patronList.length === 0 && noFilterSelected()">
-      <div fxFlex fxLayoutAlign="center center">No patrons! Add some using the controls above.</div>
-    </mat-card>
-    <mat-card class="patron-display-card" *ngFor="let p of patronList; let i = index">
-      <mat-card-content>
-        <div class="Rtable Rtable--7cols Rtable--collapse">
-          <div fxLayoutAlign="center center" class="Rtable-cell Rtable-cell--head"><span class="username-display user-info">{{p.username}}</span></div>
-          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="realname-display user-info">{{p.realname}}</span></div>
-          <div fxLayoutAlign="center center" class="Rtable-cell"><span class="tier-display user-info">{{p.tier}}</span></div>
-          <div fxLayoutAlign="center center" class="Rtable-cell">
-            <span class="coins-display user-info">{{p.coins}}</span>
-            <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
-          </div>
-          <div fxLayoutAlign="center center" class="Rtable-cell button-display">
-            <button mat-raised-button color="accent" (click)="updateCoins(i)" [disabled]="controls[i].value === 0">Update!</button>
-          </div>
-          <div fxLayoutAlign="center center" class="Rtable-cell">
-            <div class="form-display" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-              <button mat-mini-fab color="primary" (click)="decrementCoinCounter(i)">—</button>
-              <form novalidate>
-                <mat-form-field class="add-subtract-coins-input user-info">           
-                  <input class="coins-input-display" matInput type="number" [formControl]="controls[i]">
-                  <mat-hint>Coins</mat-hint>
-                </mat-form-field>
-              </form>
-              <button mat-mini-fab color="primary" (click)="incrementCoinCounter(i)">+</button>
-            </div>
-          </div>
-          <div fxLayoutAlign="space-evenly center" class="Rtable-cell Rtable-cell--foot edit-display">
-            <button mat-mini-fab class="edit-button" color="accent" (click)="openEditPatronDialog(p)">
+  <div class="chip-container patron-list">
+    <mat-chip-list fxLayout="row" [selectable]="false">
+      <mat-basic-chip *ngFor="let pat of patronList; let i = index" class="p-chip" [disableRipple]="true">
+        <mat-card fxGrowfxLayout="column" fxLayoutGap="12px" class="p-card">
+          <mat-card-title class="b-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <button mat-mini-fab class="edit-button" color="accent" (click)="openEditPatronDialog(pat.p)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-mini-fab class="delete-button" color="warn" (click)="openDeletePatronDialog(p)">
-                <mat-icon>cancel</mat-icon>
-              </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+            <button mat-mini-fab class="delete-button" color="warn" (click)="openDeletePatronDialog(pat.p)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-card-title>
+          <mat-card-content class="p-card-content" fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="8px">
+            <div fxLayout="column" fxLayoutGap="2px" fxLayoutAlign="center center">
+              <span class="username">{{pat.p.username}}</span>
+              <span class="patreon-name">AKA: {{pat.p.realname}}</span>
+            </div>
+            <hr class="separator">
+            <span class="tier" [ngClass]="assignClass(pat.p.tier)">{{pat.p.tier}}</span>
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="24px">
+              <div fxLayout="column" fxLayoutGap="4px" fxLayoutAlign="center center">
+                <div fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="start center">
+                  <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+                  <span class="coins" [ngClass]="{'greentext': coinsHigherThanInitial(i), 'redtext': coinsLowerThanInitial(i), 'blacktext': noCoinsChange(i)}">
+                    {{pat.coinControl.value}}
+                  </span>
+                </div>
+                <div class="mod-coins-text">
+                  <span *ngIf="noCoinsChange(i)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  <span *ngIf="coinsHigherThanInitial(i)">+ {{getCoinDiff(i)}} coins</span>
+                  <span *ngIf="coinsLowerThanInitial(i)">- {{getCoinDiff(i)}} coins</span>
+                </div>
+              </div>
+              <div class="buttons" fxLayout="row" fxLayoutGap="6px">
+                <button mat-mini-fab color="primary" (click)="increment(i)">+</button>
+                <button mat-mini-fab color="primary" (click)="decrement(i)">—</button>
+              </div>
+            </div>
+            <button class="save-button" mat-raised-button color="accent" (click)="updateCoins(i)" [disabled]="getCoinDiff(i) === 0">Save</button>
+          </mat-card-content>
+        </mat-card>
+      </mat-basic-chip>
+    </mat-chip-list>
   </div>
 </div>

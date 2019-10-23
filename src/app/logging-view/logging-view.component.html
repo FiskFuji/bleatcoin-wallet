@@ -2,10 +2,10 @@
   <div id="header-content">
     <mat-card>
       <mat-card-header>
-        <h2 class="lora-font">View Your Logs (count: {{logs.length}})</h2>
+        <h2 class="lora-font">View Your Logs (count: {{logs.length}}) The app will warn you when there are too many. (~3000)</h2>
       </mat-card-header>
       <mat-card-content>
-        <div id="logs-controls" fxLayout="row" fxLayoutAlign="space-evenly center">
+        <div id="logs-controls" fxLayout="row" fxLayoutAlign="space-evenly center" *ngIf="!requestInProgress">
           <form novalidate>
             <mat-form-field>
               <mat-label>Filter By</mat-label>
@@ -35,7 +35,7 @@
         </div>
       </mat-card>
     </div>
-    <div fxFlex id="log-content" *ngIf="!requestInProgress" [@listAnimation]="logs.length">
+    <div fxFlex id="log-content" *ngIf="!requestInProgress">
       <mat-card class="log-display-card" *ngFor="let l of logs; let i = index">
         <mat-card-content>
           <div class="Rtable Rtable--3cols Rtable--collapse">

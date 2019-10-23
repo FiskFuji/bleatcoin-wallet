@@ -11,24 +11,9 @@ $accent:  mat-palette($mat-amber, A200, A100, A400);
 }
 
 #content {
-  background-image: linear-gradient(-90deg, rgba(26, 26, 165, 0.9), rgba(160, 17, 160, 0.9));
   height: 100%;
   padding-left: 4px;
   padding-right: 4px;
-}
-
-mat-card {
-  margin: 4px;
-  background-color: rgba(255, 255, 255, 0.75);
-}
-
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
 }
 
 #lamb-icon-one {
@@ -38,6 +23,11 @@ input[type="number"] {
 
 #top-panel {
   width: 100%;
+}
+
+.top-panel-container {
+  margin: 4px;
+  background: rgba(255, 255, 255, 0.85);
 }
 
 #patron-list {
@@ -69,12 +59,6 @@ input[type="number"] {
 	background-color: #D62929;
 }
 
-.bleatcoin {
-  height: 32px;
-  width: 32px;
-  margin-left: 8px;
-}
-
 .top-panel-content {
   width: 25%;
 }
@@ -94,17 +78,8 @@ input[type="number"] {
   text-align: center;
 }
 
-.add-subtract-coins-input {
-  text-align: right;
-  max-width: 65px;
-}
-
 .capitalize-first {
   text-transform: capitalize;
-}
-
-.coins-input-display {
-  font-size: 24px;
 }
 
 .button-display > button, .management-button {
@@ -117,10 +92,6 @@ input[type="number"] {
 
 .manage-header, .user-info {
   font-size: 18px;
-}
-
-.coins-display {
-  font-size: 20px;
 }
 
 .colored-text-anim {
@@ -180,12 +151,8 @@ input[type="number"] {
   margin: 0;
 }
 
-.Rtable--4cols > .Rtable-cell {
-  width: 25%;
-}
-
-.Rtable--7cols > .Rtable-cell {
-  width: 14.28%;
+.Rtable--3cols > .Rtable-cell {
+  width: 33%;
 }
 
 .Rtable {
@@ -198,12 +165,124 @@ input[type="number"] {
   margin: -3px 0 0 -3px;
 }
 
-.controls-hidden, .header-hidden {
+.controls-hidden {
   display: none !important;
 }
 
-.chev-selected {
-  color: limegreen;
+.chip-container {
+  padding: 0 20px;
+  width: 100%;
+}
+
+.p-chip {
+  margin: 8px;
+}
+
+.b-header {
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.p-card {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px 14px;
+  min-width: 275px;
+}
+
+.separator {
+  width: 33%;
+  margin: 0 0 12px 0 !important;
+}
+
+.bleatcoin {
+  width: 36px;
+  height: 36px;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.patreon-name {
+  font-size: 24px;
+}
+
+.tier {
+  font-size: 26px;
+}
+
+.coins {
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.mod-coins-text {
+  font-size: 12px;
+  line-height: 1.6;
+  text-decoration: underline;
+}
+
+.save-button {
+  margin-top: 8px;
+}
+
+.greentext {
+  color: rgb(2, 179, 2);
+}
+
+.redtext {
+  color: rgb(255, 0, 0);
+}
+
+.blacktext {
+  color: black;
+}
+
+// Patron tier colors
+.Past {
+  color: rgb(66, 201, 255);
+  //text-shadow: -1px 1px #000;
+}
+
+.Hatchling {
+  color: rgb(255, 32, 32);
+  //text-shadow: -1px 1px #000;
+}
+
+.Grub {
+  color: rgb(180, 51, 255);
+  //text-shadow: -1px 1px #000;
+}
+
+.Moth {
+  color: rgb(56, 135, 255);
+  //text-shadow: -1px 1px #000;
+}
+
+.Beetle {
+  color: rgb(73, 219, 139);
+  //text-shadow: -1px 1px #000;
+}
+
+.Cicada {
+  color: rgb(6, 190, 6);
+  //text-shadow: -1px 1px #000;
+}
+
+.Bumblebee {
+  color: rgb(255, 219, 15);
+  text-shadow: -1px 2px #000;
+}
+
+.Mantid {
+  color: rgb(226, 147, 0);
+  //text-shadow: -1px 1px #000;
+}
+
+.Firefly {
+  color: rgb(255, 38, 121);
+  //text-shadow: -1px 1px #000;
 }
 
 @media all and (max-width: 850px) {
@@ -225,12 +304,6 @@ input[type="number"] {
 
   .Rtable-special > .Rtable-cell {
     width: 50% !important;
-  }
-}
-
-@media all and (max-width: 700px) {
-  #patron-list-header {
-    display: none !important;
   }
 }
 
@@ -282,7 +355,7 @@ input[type="number"] {
     width: 100% !important;
   }
 
-  #patron-list-header, #lamb-icon-one, .top-panel-content-lg {
+  #lamb-icon-one, .top-panel-content-lg {
     display: none !important;
   }
 
@@ -296,11 +369,6 @@ input[type="number"] {
 
   .Rtable-cell {
     padding: 4px 1.2em !important;
-  }
-
-  mat-card {
-    padding: 4px !important;
-    margin: 0px;
   }
 
   .patron-display-card {
