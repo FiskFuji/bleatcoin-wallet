@@ -74,20 +74,6 @@
             <mat-tab label="Support!" class="hide-when-small">
               <mat-card>
                 <div class="support-container" fxLayout="row" fxLayoutGap="8px">
-                  <div class="card" matTooltip="Click me to go to Lamb's Patreon!" (click)="navByUrlPatreon()">
-                    <h3 class="title">Support</h3>
-                    <div class="bar">
-                      <div class="emptybar"></div>
-                      <div class="filledbar"></div>
-                    </div>
-                    <div class="circle">
-                      <img src="../../assets/bleatcoin-max.png" class="bleatcoin-mid hvr-bob">
-                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <circle class="stroke" cx="60" cy="60" r="50"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <mat-divider [vertical]="true"></mat-divider>
                   <div fxLayout="column">
                     <h3 class="lora-font"><mat-icon>brush</mat-icon> Support via Patreon!</h3>
                     <h5 class="lora-font stream-info-text">Support Lamb on Patreon for the following benefits:</h5>
@@ -124,64 +110,118 @@
               </mat-card>
             </mat-tab>
             <mat-tab label="Spend!" class="hide-when-small">
-                <mat-card>
-                  <div class="spend-container" fxLayout="row" fxLayoutGap="8px">
-                    <div class="card" matTooltip="Click me to open the Bleatcoin form!" (click)="navByUrlBCForm()">
-                      <h3 class="title">Spend Coins</h3>
-                      <div class="bar">
-                        <div class="emptybar"></div>
-                        <div class="filledbar"></div>
-                      </div>
-                      <div class="circle">
-                        <img src="../../assets/bleatcoin-max.png" class="bleatcoin-mid hvr-bob">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-                          <circle class="stroke" cx="60" cy="60" r="50"/>
-                        </svg>
-                      </div>
-                    </div>
-                    <mat-divider [vertical]="true"></mat-divider>
-                    <div fxLayout="column" fxLayoutGap="4px">
-                      <span class="lora-font">You may reserve a slot up to 2 weeks in advance. You may combine Bleatcoin / cash to pay for a commission (1 coin = $3).</span>
-                      <span class="lora-font">Use <a href="http://bit.ly/BleatcoinShop" target="_blank">this form</a> to place a Bleatcoin order.</span>
-                      <span class="lora-font">What you can order:</span>
-                      <table class="lora-font pricing-table">
-                        <thead>
-                          <tr>
-                            <th>Commission Type</th>
-                            <th>1 Char Price</th>
-                            <th>2 Char Price</th>
-                          </tr>
-                        </thead>
+              <mat-card>
+                <div class="spend-container" fxLayout="column" fxLayoutGap="4px">
+                  <span class="lora-font">Patrons can reserve slots via Discord. You may combine Bleatcoin / cash to pay for a commission (1 coin = ~$2).</span>
+                  <span class="lora-font">What you can order:</span>
+                  <div fxLayout="row wrap" fxLayoutGap="12px">
+                    <table class="lora-font pricing-table" fxFlex>
+                      <thead>
                         <tr>
-                          <td>Messy Sketch + Highlight Color</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 5</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 10</td>
+                          <th>Product</th>
+                          <th>1 Char Price</th>
+                          <th>2 Char Price</th>
                         </tr>
+                      </thead>
+                      <tr>
+                        <td>Sketch (Monochrome + Highlight)</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 5</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 10</td>
+                      </tr>
+                      <tr>
+                        <td>30min Timed</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 8</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 8</td>
+                      </tr>
+                      <tr>
+                        <td>1hr Timed</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 17</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 17</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#illustration" target="_blank">Bronze Illustration (Sketch + Color)</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 17</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 27</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#illustration" target="_blank">Silver Illustration (Lined + Color)</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 25</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 35</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#illustration" target="_blank">Gold Illustration (Refined)</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 37</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 57</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#doodlesheet" target="_blank">Doodlesheet Mini (3 pose)</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 45</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 75</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#doodlesheet" target="_blank">Doodlesheet Regular (5 pose)</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 75</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 125</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#doodlesheet" target="_blank">Doodlesheet Deluxe (Whole page)</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 100</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 150</td>
+                      </tr>
+                    </table>
+                    <table class="lora-font pricing-table" fxFlex>
+                      <thead>
                         <tr>
-                          <td>Messy Sketch + Full Color</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 10</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 13</td>
+                          <th>Design Commissions</th>
+                          <th>Sketch Reference</th>
+                          <th>Full Reference</th>
                         </tr>
-                        <tr>
-                          <td>Colored Sketch + Color</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 22</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 25</td>
-                        </tr>
-                        <tr>
-                          <td>Mini Doodlesheet</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 25</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 40</td>
-                        </tr>
-                        <tr>
-                          <td>Standard Doodlesheet</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 42</td>
-                          <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 66</td>
-                        </tr>
-                      </table>
-                    </div>
+                      </thead>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#design" target="_blank">Wing It!</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 17</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 27</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#design" target="_blank">Revamp of Old Design</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 25</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 37</td>
+                      </tr>
+                      <tr>
+                        <td><a href="https://lamb-art.carrd.co/#design" target="_blank">New Character + Guidance</a></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 35</td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 45</td>
+                      </tr>
+                      <tr>
+                        <th>Addons (for anything)</th>
+                        <th></th>
+                        <th>Price</th>
+                      </tr>
+                      <tr>
+                        <td>Full Background</td>
+                        <td></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 10</td>
+                      </tr>
+                      <tr>
+                        <td>Internal Shot</td>
+                        <td></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 6</td>
+                      </tr>
+                      <tr>
+                        <td>Cutaway</td>
+                        <td></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 7</td>
+                      </tr>
+                      <tr>
+                        <td>Alternate Version</td>
+                        <td></td>
+                        <td><img src="../../assets/bleatcoin-max.png" class="bleatcoin-small"> 5 - 12</td>
+                      </tr>
+                    </table>
                   </div>
-                </mat-card>
-              </mat-tab>
+                </div>
+              </mat-card>
+            </mat-tab>
           </mat-tab-group>
         </div>
       </mat-card-content>

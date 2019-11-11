@@ -63,7 +63,7 @@ export class ManagementPageComponent implements OnInit {
       this.PatronServ.getPatronsList().subscribe(
         (patrons) => {
           for (let x = 0; x < patrons.length; ++x) {
-            this.patronList.push({p: patrons[x], coinControl: new FormControl(patrons[x].coins, [
+            this.patronList.push({p: patrons[x], coinControl: new FormControl(undefined, [
               Validators.min(-99999),
               Validators.max(99999)
             ])});
@@ -79,6 +79,10 @@ export class ManagementPageComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  onMatChipKeyPress(event) {
+    event.stopImmediatePropagation();
+ }
 
   downloadAsCSV() {
     this.csv.getPatronDB().subscribe(
@@ -121,30 +125,16 @@ export class ManagementPageComponent implements OnInit {
 
   coinsHigherThanInitial(i: number): boolean {
     // if the coins in the control are higher than the initial value return true.
-    return (this.patronList[i].coinControl.value > this.patronList[i].p.coins) ? true : false;
+    return this.patronList[i].coinControl.value > 0;
   }
 
   coinsLowerThanInitial(i: number): boolean {
     // if the coins in the control are lower than the initial value return true.
-    return (this.patronList[i].coinControl.value < this.patronList[i].p.coins) ? true : false;
-  }
-
-  increment(i: number) {
-    const current = this.patronList[i].coinControl.value;
-    this.patronList[i].coinControl.setValue(current + 1);
-  }
-
-  decrement(i: number) {
-    const current = this.patronList[i].coinControl.value;
-    this.patronList[i].coinControl.setValue(current - 1);
+    return this.patronList[i].coinControl.value < 0;
   }
 
   noCoinsChange(i: number): boolean {
-    return (this.patronList[i].coinControl.value === this.patronList[i].p.coins) ? true : false;
-  }
-
-  getCoinDiff(i: number): number {
-    return Math.abs(this.patronList[i].coinControl.value - this.patronList[i].p.coins);
+    return (this.patronList[i].coinControl.value === undefined || this.patronList[i].coinControl.value === 0);
   }
 
   assignClass(c: string) {
@@ -220,6 +210,9 @@ export class ManagementPageComponent implements OnInit {
     // Gives positive if adding coins, negative if subtracting coins.
     const val = this.patronList[index].coinControl.value - this.patronList[index].p.coins;
 
+    // Update patron's actual coin value.
+    this.patronList[index].p.coins = this.patronList[index].coinControl.value;
+
     // For logging.
     let lt: string;
     let msg: string;
@@ -244,6 +237,9 @@ export class ManagementPageComponent implements OnInit {
           lt,
           msg
         );
+
+        // Reset coin control.
+        this.patronList[index].coinControl.setValue(this.patronList[index].p.coins);
       },
       f => {
         // failure
@@ -256,7 +252,7 @@ export class ManagementPageComponent implements OnInit {
             this.patronList = [];
             this.copyOfPatronList = [];
             for (let x = 0; x < patrons.length; ++x) {
-              this.patronList.push({p: patrons[x], coinControl: new FormControl(patrons[x].coins, [
+              this.patronList.push({p: patrons[x], coinControl: new FormControl(undefined, [
                 Validators.min(-99999),
                 Validators.max(99999)
               ])});
@@ -272,7 +268,7 @@ export class ManagementPageComponent implements OnInit {
             this.requestInProgress = false;
           }
         );
-      }
+      },
     );
   }
 
@@ -314,7 +310,7 @@ export class ManagementPageComponent implements OnInit {
             this.patronList = [];
             this.copyOfPatronList = [];
             for (let x = 0; x < patrons.length; ++x) {
-              this.patronList.push({p: patrons[x], coinControl: new FormControl(patrons[x].coins, [
+              this.patronList.push({p: patrons[x], coinControl: new FormControl(undefined, [
                 Validators.min(-99999),
                 Validators.max(99999)
               ])});
@@ -371,7 +367,7 @@ export class ManagementPageComponent implements OnInit {
                 this.patronList = [];
                 this.copyOfPatronList = [];
                 for (let x = 0; x < patrons.length; ++x) {
-                  this.patronList.push({p: patrons[x], coinControl: new FormControl(patrons[x].coins, [
+                  this.patronList.push({p: patrons[x], coinControl: new FormControl(undefined, [
                     Validators.min(-99999),
                     Validators.max(99999)
                   ])});
@@ -424,7 +420,7 @@ export class ManagementPageComponent implements OnInit {
                   this.patronList = [];
                   this.copyOfPatronList = [];
                   for (let x = 0; x < patrons.length; ++x) {
-                    this.patronList.push({p: patrons[x], coinControl: new FormControl(patrons[x].coins, [
+                    this.patronList.push({p: patrons[x], coinControl: new FormControl(undefined, [
                       Validators.min(-99999),
                       Validators.max(99999)
                     ])});

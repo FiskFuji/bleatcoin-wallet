@@ -24,7 +24,7 @@ export class LoggingViewComponent implements OnInit {
   logs: LogEntry[] = [];
   copyOfLogs: LogEntry[] = [];
   filterOptions: string[] = [
-    LogType.add, LogType.sub, LogType.batch, LogType.create, LogType.del, LogType.edit, LogType.order, LogType.fin
+    LogType.add, LogType.sub, LogType.batch, LogType.create, LogType.del, LogType.edit, LogType.order, LogType.fin, LogType.misc,
   ];
   selectedFilter: string;
 

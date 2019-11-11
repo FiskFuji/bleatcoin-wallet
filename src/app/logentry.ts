@@ -6,7 +6,8 @@ export const LogType = {
     edit: 'Edit Patron',
     del: 'Delete Patron',
     order: 'Order Art',
-    fin: 'Finished Order'
+    fin: 'Finished Order',
+    misc: 'Misc.',
 };
 
 export interface LogEntry {

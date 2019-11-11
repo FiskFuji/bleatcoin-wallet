@@ -14,7 +14,6 @@
             <a routerLink="/Logs">
               <button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary"><mat-icon>view_headline</mat-icon> Logs</button>
             </a>
-            <a routerLink="/Wallet"><button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">To Public View</button></a>
             <button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary" (click)="downloadAsCSV()"><mat-icon>arrow_downward</mat-icon> Download CSV</button>
             <a *ngIf="false" routerLink="/experimental"><button class="top-panel-button hvr-bounce-to-left" mat-raised-button color="primary">Experimental</button></a>
         </div>
@@ -58,48 +57,46 @@
   <div fxFlex fxLayout="row" fxLayoutAlign="center center" *ngIf="requestInProgress">
     <mat-spinner color="accent"></mat-spinner>
   </div>
-  <div class="chip-container patron-list">
-    <mat-chip-list fxLayout="row" [selectable]="false">
-      <mat-basic-chip *ngFor="let pat of patronList; let i = index" class="p-chip" [disableRipple]="true">
-        <mat-card fxGrowfxLayout="column" fxLayoutGap="12px" class="p-card">
-          <mat-card-title class="b-header" fxLayout="row" fxLayoutAlign="space-between center">
-            <button mat-mini-fab class="edit-button" color="accent" (click)="openEditPatronDialog(pat.p)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-mini-fab class="delete-button" color="warn" (click)="openDeletePatronDialog(pat.p)">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-card-title>
-          <mat-card-content class="p-card-content" fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="8px">
-            <div fxLayout="column" fxLayoutGap="2px" fxLayoutAlign="center center">
-              <span class="username">{{pat.p.username}}</span>
-              <span class="patreon-name">AKA: {{pat.p.realname}}</span>
+  <div class="chip-container patron-list" fxLayout="row wrap" fxLayoutGap="12px">
+    <mat-card *ngFor="let pat of patronList; let i = index" fxFlex fxLayout="column" fxLayoutGap="12px" class="p-card">
+      <mat-card-title class="b-header" fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-mini-fab class="edit-button" color="accent" (click)="openEditPatronDialog(pat.p)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab class="delete-button" color="warn" (click)="openDeletePatronDialog(pat.p)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-card-title>
+      <mat-card-content class="p-card-content" fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="8px">
+        <div fxLayout="column" fxLayoutGap="2px" fxLayoutAlign="center center">
+          <span class="username">{{pat.p.username}}</span>
+          <span class="patreon-name">AKA: {{pat.p.realname}}</span>
+        </div>
+        <hr class="separator">
+        <span class="tier" [ngClass]="assignClass(pat.p.tier)">{{pat.p.tier}}</span>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="24px">
+          <div fxLayout="column" fxLayoutGap="4px" fxLayoutAlign="center center" fxFlex="50%">
+            <div fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="start center">
+              <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
+              <span class="coins" [ngClass]="{'greentext': coinsHigherThanInitial(i), 'redtext': coinsLowerThanInitial(i), 'blacktext': noCoinsChange(i)}">
+                {{pat.p.coins + pat.coinControl.value}}
+              </span>
             </div>
-            <hr class="separator">
-            <span class="tier" [ngClass]="assignClass(pat.p.tier)">{{pat.p.tier}}</span>
-            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="24px">
-              <div fxLayout="column" fxLayoutGap="4px" fxLayoutAlign="center center">
-                <div fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="start center">
-                  <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
-                  <span class="coins" [ngClass]="{'greentext': coinsHigherThanInitial(i), 'redtext': coinsLowerThanInitial(i), 'blacktext': noCoinsChange(i)}">
-                    {{pat.coinControl.value}}
-                  </span>
-                </div>
-                <div class="mod-coins-text">
-                  <span *ngIf="noCoinsChange(i)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                  <span *ngIf="coinsHigherThanInitial(i)">+ {{getCoinDiff(i)}} coins</span>
-                  <span *ngIf="coinsLowerThanInitial(i)">- {{getCoinDiff(i)}} coins</span>
-                </div>
-              </div>
-              <div class="buttons" fxLayout="row" fxLayoutGap="6px">
-                <button mat-mini-fab color="primary" (click)="increment(i)">+</button>
-                <button mat-mini-fab color="primary" (click)="decrement(i)">—</button>
-              </div>
-            </div>
-            <button class="save-button" mat-raised-button color="accent" (click)="updateCoins(i)" [disabled]="getCoinDiff(i) === 0">Save</button>
-          </mat-card-content>
-        </mat-card>
-      </mat-basic-chip>
-    </mat-chip-list>
+          </div>
+          <div class="buttons" fxLayout="row" fxLayoutGap="6px" fxFlex="50%" fxLayoutAlign="center center" (keypress)="onMatChipKeyPress($event)">
+            <form novalidate (keypress)="onMatChipKeyPress($event)">
+              <mat-form-field class="change-coins-input">
+                <mat-label>+/- coins</mat-label>
+                <input matInput type="number" [formControl]="pat.coinControl">
+                <mat-error>
+                  max: +/- 99,999
+                </mat-error>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+        <button class="save-button" mat-raised-button color="accent" (click)="updateCoins(i)" [disabled]="noCoinsChange(i) || pat.coinControl.invalid">Save</button>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>

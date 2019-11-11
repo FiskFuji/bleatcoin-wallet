@@ -10,6 +10,17 @@ $accent:  mat-palette($mat-amber, A200, A100, A400);
     width: inherit;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
 #content {
   height: 100%;
   padding-left: 4px;
@@ -94,6 +105,10 @@ $accent:  mat-palette($mat-amber, A200, A100, A400);
   font-size: 18px;
 }
 
+.change-coins-input {
+  max-width: 100px;
+}
+
 .colored-text-anim {
 	color: #000;
 	background: rgba(255, 253, 160, 1);
@@ -174,10 +189,6 @@ $accent:  mat-palette($mat-amber, A200, A100, A400);
   width: 100%;
 }
 
-.p-chip {
-  margin: 8px;
-}
-
 .b-header {
   width: 100%;
   margin-bottom: 4px;
@@ -187,6 +198,7 @@ $accent:  mat-palette($mat-amber, A200, A100, A400);
   background: rgba(255, 255, 255, 0.85);
   padding: 8px 14px;
   min-width: 275px;
+  margin-bottom: 12px;
 }
 
 .separator {

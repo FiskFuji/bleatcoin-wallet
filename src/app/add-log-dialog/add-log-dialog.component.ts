@@ -13,14 +13,14 @@ import { LogEntry, LogType } from '../logentry';
 })
 
 export class AddLogDialogComponent implements OnInit {
-  logTypes: string[] = [LogType.order, LogType.fin];
+  logTypes: string[] = [LogType.order, LogType.fin, LogType.misc];
   selectedAction: string = this.logTypes[0];
   infoControl: FormControl;
 
   constructor(private dialogRef: MatDialogRef<AddLogDialogComponent>, public datePipe: DatePipe) {
     this.infoControl = new FormControl(undefined, [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(200),
     ]);
   }
 
