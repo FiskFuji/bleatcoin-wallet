@@ -58,7 +58,7 @@
     <mat-spinner color="accent"></mat-spinner>
   </div>
   <div class="chip-container patron-list" fxLayout="row wrap" fxLayoutGap="12px">
-    <mat-card *ngFor="let pat of patronList; let i = index" fxFlex fxLayout="column" fxLayoutGap="12px" class="p-card">
+    <mat-card *ngFor="let pat of patronList; let i = index" fxLayout="column" fxLayoutGap="12px" class="p-card">
       <mat-card-title class="b-header" fxLayout="row" fxLayoutAlign="space-between center">
         <button mat-mini-fab class="edit-button" color="accent" (click)="openEditPatronDialog(pat.p)">
           <mat-icon>edit</mat-icon>
@@ -79,7 +79,7 @@
             <div fxLayout="row" fxLayoutGap="4px" fxLayoutAlign="start center">
               <img class="bleatcoin" src="../../assets/bleatcoin-max.png">
               <span class="coins" [ngClass]="{'greentext': coinsHigherThanInitial(i), 'redtext': coinsLowerThanInitial(i), 'blacktext': noCoinsChange(i)}">
-                {{pat.p.coins + pat.coinControl.value}}
+                {{pat.p.coins + (pat.coinControl.value || 0)}}
               </span>
             </div>
           </div>

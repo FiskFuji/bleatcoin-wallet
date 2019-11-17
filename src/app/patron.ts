@@ -11,7 +11,18 @@ export interface PromiseStructure {
   message?: string;
 }
 
-export const PatronTiers: string[] = ['Past Patron', 'Hatchling', 'Grub', 'Moth', 'Beetle', 'Cicada', 'Bumblebee', 'Mantid', 'Firefly'];
+export const PatronTiers: string[] = [
+  'Past Patron',
+  'Hatchling',
+  'Grub',
+  'Moth',
+  'Beetle',
+  'Cicada',
+  'Bumblebee',
+  'Mantid',
+  'Firefly',
+  'Dragonfly',
+];
 
 export const TierNumbers = {
   'Past Patron': 1,
@@ -22,5 +33,6 @@ export const TierNumbers = {
   'Cicada': 6,
   'Bumblebee': 7,
   'Mantid': 8,
-  'Firefly': 9
+  'Firefly': 9,
+  'Dragonfly': 10,
 };

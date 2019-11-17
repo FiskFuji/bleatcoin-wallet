@@ -134,7 +134,9 @@ export class ManagementPageComponent implements OnInit {
   }
 
   noCoinsChange(i: number): boolean {
-    return (this.patronList[i].coinControl.value === undefined || this.patronList[i].coinControl.value === 0);
+    return (this.patronList[i].coinControl.value === null
+            || this.patronList[i].coinControl.value === undefined
+            || this.patronList[i].coinControl.value === 0);
   }
 
   assignClass(c: string) {
@@ -207,21 +209,20 @@ export class ManagementPageComponent implements OnInit {
   }
 
   updateCoins(index: number) {
-    // Gives positive if adding coins, negative if subtracting coins.
-    const val = this.patronList[index].coinControl.value - this.patronList[index].p.coins;
-
-    // Update patron's actual coin value.
-    this.patronList[index].p.coins = this.patronList[index].coinControl.value;
+    // Add coin control value, this can be negative or positive.
+    this.patronList[index].p.coins += this.patronList[index].coinControl.value;
 
     // For logging.
     let lt: string;
     let msg: string;
-    if (val > 0) {
+    if (this.patronList[index].coinControl.value > 0) {
       lt = LogType.add;
-      msg = 'Added ' + val + ' coins to ' + this.patronList[index].p.realname + '. New total: ' + this.patronList[index].p.coins;
+      msg = 'Added ' + this.patronList[index].coinControl.value + ' coins to ' + this.patronList[index].p.realname + '. New total: '
+            + this.patronList[index].p.coins;
     } else {
       lt = LogType.sub;
-      msg = 'Deducted ' + val + ' coins from ' + this.patronList[index].p.realname + '. New total: ' + this.patronList[index].p.coins;
+      msg = 'Deducted ' + this.patronList[index].coinControl.value + ' coins from ' + this.patronList[index].p.realname + '. New total: '
+            + this.patronList[index].p.coins;
     }
 
     // Call service to update DB using API.
@@ -239,7 +240,7 @@ export class ManagementPageComponent implements OnInit {
         );
 
         // Reset coin control.
-        this.patronList[index].coinControl.setValue(this.patronList[index].p.coins);
+        this.patronList[index].coinControl.setValue(null);
       },
       f => {
         // failure
